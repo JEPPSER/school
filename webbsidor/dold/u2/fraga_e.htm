@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fråga E</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <header>
+            <h1>Fråga E</h1>
+            <h3>HTML och CSS</h3>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="fraga_d.htm">Fråga D</a></li>
+                <li><a href="fraga_e.htm" id="thisPage">Fråga E</a></li>
+                <li><a href="fraga_f.htm">Fråga F</a></li>
+                <li><a href="template.htm">Template</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <div id="fraga">
+                <p>Två frågor om CSS och koppling mellan HTML och CSS med id och class.</p>
+                <ol>
+                    <li>E1: Vad menas med kaskad i CSS? Hur fungerar det?</li>
+                    <li>E2: I HTML-taggarna kan man ha attribut med id och class och sedan referera till dem i CSS-koden.
+                        Vad är skillnaden, när ska man använda id och när ska man använda class?
+                    </li>
+                </ol>
+            </div>
+            <div id="svar">
+                <h2>Mitt Svar</h2>
+                <p>Svaren för E1 och E2 presenteras nedan.</p>
+                <h3>Fråga E1</h3>
+                <p>
+                    Kaskad är ett ord som beskriver hur stilinställningarna i CSS läses in. I CSS skapar man flera stilmallar för specifika HTML componenter
+                    efter varandra, vilket skapar en "kaskad" av stilinställningar. Stilmallarna läses in en i taget i den ordning de kommer, vilket betyder
+                    att senare stilmallar kan överta (overwrite) de tidigare.
+                </p>
+                <h3>Fråga E2</h3>
+                <p>
+                    Skillnaden mellan id och class är att ett id kan användas för att identifiera endast ett element, medans class kan användas för att
+                    identifiera mer än ett element. Om man t.ex. vill ha ett speciellt typ av element med en speciel stil på flera ställen på sidan så kan
+                    man göra en class för det elementet. CSS-koden för den klassen kommer då att tillämpas på alla element med den klassen.
+                </p>
+            </div>
+        </main>
+
+        <footer>Jesper Bergström - 2019-08-27</footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+html, body, div, header, nav, main, section, footer {
+    margin: 0px;
+    padding: 0px;
+}
+
+header, nav, main, footer, section {
+    display: block;
+}
+
+#wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: purple;
+}
+
+body {
+    background-color: black;
+    color: #FFFFFF;
+    font-family: "Consolas";
+    font-size: 12px;
+}
+
+main {
+    background-color: #222222;
+    padding: 10px;
+    margin-left: 17.5%;
+}
+
+main:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+#thisPage {
+    background-color: white;
+    color: black;
+}
+
+nav {
+    float: left;
+    width: 17.5%;
+    padding-top: 0px;
+}
+
+main h2, main h3 {
+    color: #90FF90;
+    font-style: italic;
+}
+
+main h3 {
+    border-top: 1px solid #999;
+    padding-top: 10px;
+    clear: right;
+}
+
+header {
+    background-image: url("pics/bg.jpg");
+    height: 140px;
+    background-position: right;
+}
+
+header h1, header h3 {
+    padding: 7px;
+    color: #800000;
+    margin: 0px;
+}
+
+footer {
+    background-color: darkblue;
+    color: yellow;
+    padding: 5px;
+    text-align: center;
+    clear: both;
+}
+
+nav ul {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+nav ul li {
+    display: block;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    display: block;
+}
+
+nav a:link, nav a:visited {
+    background-color: lightblue;
+    color: #333333;
+}
+
+nav a:hover, nav a:active {
+    background-color: white;
+    color: black;
+}
+
+#fraga {
+    background-color: purple;
+    border: 4px solid pink;
+    border-radius: 10px;
+    padding-left: 10px;
+    width: 80%;
+    margin: 0 auto;
+    box-shadow: 10px 10px 5px black;
+}
+
+th, td {
+    border: 1px solid #666;
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    box-shadow: 10px 10px 5px black;
+    margin-bottom: 15px;
+}
+
+tr {
+    background-color: white;
+    color: black;
+}
+
+th {
+    background-color: purple;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: pink;
+}
+
+main h3:before {
+    content: "---";
+}
+
+#floatImg {
+    float: right;
+    margin: 10px;
+    width: 120px;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media screen and (max-width:440px) {
+    nav {
+        float: none;
+        width: 100%;
+    }
+
+    nav ul li {
+        display: inline;
+    }
+
+    nav a {
+        display: inline-block;
+    }
+
+    main {
+        margin-left: 0px;
+    }
+
+    header {
+        height: 100px;
+        background-size: auto 100px;
+    }
+}
+
+@media screen and (max-width:282px) {
+    nav {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    nav a {
+        display: block;
+        border: 3px outset #700070;
+    }
+
+    main {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (max-width:240px) {
+    #floatImg {
+        float: none;
+    }
+}
+
+@media screen and (max-width:340px) {
+    table {
+        box-shadow: none;
+        width: 100%;
+    }
+
+    table th, td {
+        display: block;
+    }
+
+    table tr {
+        border-bottom: 2px solid #333;
+    }
+}
