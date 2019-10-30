@@ -23,8 +23,8 @@ body {
     background-size: cover;
     background-attachment: fixed;
     color: #FFFFFF;
-    font-family: "Consolas";
-    font-size: 12px;
+    font-family: "Georgia";
+    font-size: 14px;
     overflow-y: scroll;
 }
 
@@ -36,8 +36,8 @@ nav {
 
 main {
     background-color: #222222;
-    padding: 10px;
-    height: 3000px;
+    padding: 30px;
+    padding-top: 100px;
 }
 
 main:after {
@@ -47,38 +47,55 @@ main:after {
 }
 
 #thisPage {
-    background-color: rgb(47, 79, 67);
+    background-color: #222222;
 }
 
-main h2, main h3 {
-    color: #90FF90;
-    font-style: italic;
+.news {
+    margin-top: 10px;
 }
 
-main h3 {
-    border-top: 1px solid #999;
-    padding-top: 10px;
-    clear: right;
+.news section {
+    background-color: white;
+    color: black;
+    display: block;
+    float: left;
 }
 
-header {
-    background-image: url("pics/bg.jpg");
-    height: 140px;
-    background-position: right;
+.news aside {
+    overflow-y: auto;
+    color: white;
+    width: 200px;
+    height: 236px;
+    background-color: transparent;
+    display: inline-block;
+    margin-left: 10px;
 }
 
-header h1, header h3 {
-    padding: 7px;
-    color: #800000;
-    margin: 0px;
+.news a:link, .news a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.news div {
+    background-color: darkolivegreen;
+    color: white;
+    padding: 10px;
+}
+
+.news img {
+    display: block;
+    object-fit: cover;
+    height: 200px;
+    width: 300px;
 }
 
 footer {
-    background-color: darkblue;
-    color: yellow;
+    background-color: darkolivegreen;
+    color: white;
     padding: 5px;
     text-align: center;
     clear: both;
+    font-size: 18px;
 }
 
 nav ul {
@@ -87,7 +104,7 @@ nav ul {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
-    background-color: darkolivegreen;
+    background-image: linear-gradient(to left, #222222, darkolivegreen)
 }
 
 nav ul li {
@@ -115,12 +132,12 @@ nav .navLink {
 }
 
 nav .navLink:link, nav .navLink:visited {
-    background-color: darkolivegreen;
+    background-color: transparent;
     color: white;
 }
 
 nav .navLink:hover, nav .navLink:active {
-    background-color: rgb(47, 79, 67);
+    background-color: #222222;
     color: white;
 }
 
