@@ -59,6 +59,7 @@ main:after {
     color: black;
     display: block;
     float: left;
+    box-shadow: 5px 5px 5px black;
 }
 
 .news aside {
@@ -141,24 +142,14 @@ nav .navLink:hover, nav .navLink:active {
     color: white;
 }
 
-#fraga {
-    background-color: purple;
-    border: 4px solid pink;
-    border-radius: 10px;
-    padding-left: 10px;
-    width: 80%;
-    margin: 0 auto;
-    box-shadow: 10px 10px 5px black;
-}
-
 th, td {
-    border: 1px solid #666;
+    border: 1px solid #222;
     padding: 5px;
 }
 
 table {
     border-collapse: collapse;
-    box-shadow: 10px 10px 5px black;
+    box-shadow: 5px 5px 5px black;
     margin-bottom: 15px;
 }
 
@@ -168,26 +159,44 @@ tr {
 }
 
 th {
-    background-color: purple;
+    background-color: darkolivegreen;
     color: white;
 }
 
 tr:nth-child(even) {
-    background-color: pink;
+    background-color: lightgray;
 }
 
-main h3:before {
-    content: "---";
+#contact {
+    background-color: white;
+    color: black;
+    display: inline-block;
+    box-shadow: 5px 5px 5px black;
 }
 
-#floatImg {
-    float: right;
-    margin: 10px;
-    width: 120px;
+#contact div {
+    padding: 5px;
 }
 
-img {
-    max-width: 100%;
+#contactTitle {
+    background-color: darkolivegreen;
+    color: white;
+    padding: 5px;
+    font-size: 14px;
+}
+
+#bilder img {
+    height: 200px;
+}
+
+#bilder {
+    padding: 0px;
+    list-style-type: none;
+}
+
+#bilder li {
+    display: inline-block;
+    padding: 5px;
 }
 
 @media screen and (max-width:440px) {
