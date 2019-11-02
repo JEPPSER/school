@@ -199,6 +199,90 @@ tr:nth-child(even) {
     padding: 5px;
 }
 
+.greenButton {
+    background-color: darkolivegreen;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 5px;
+    box-shadow: 5px 5px 5px black;
+    text-decoration: none;
+}
+
+.greenButton:visited {
+    color: white;
+}
+
+#rekordWrapper {
+    display: inline-block;
+}
+
+#rekordWrapper table {
+    float: left;
+    margin-right: 10px;
+}
+
+a {
+    color: white;
+}
+
+img {
+    max-width: 100%;
+}
+
+#forumTradar tr {
+    border: 1px solid #222222;
+}
+
+#forumTradar th, #forumTradar td {
+    border: none;
+    text-align: left;
+}
+
+#forumTradar {
+    width: 100%;
+}
+
+#forumTradar a {
+    color: black;
+}
+
+#forumWrapper {
+    width: 100%;
+}
+
+.forumPost {
+    width: 100%;
+    background-color: white;
+    color: black;
+    box-shadow: 5px 5px 5px black;
+}
+
+.forumPost div {
+    background-color: darkolivegreen;
+    padding: 10px;
+    color: white;
+}
+
+.forumPost p {
+    padding: 10px;
+    margin-top: 0px;
+}
+
+.postDate {
+    float: right;
+}
+
+#sendWrapper {
+    margin-bottom: 10px;
+}
+
+#sendWrapper input {
+    margin-bottom: 5px;
+}
+
 @media screen and (max-width:440px) {
     nav {
         float: none;
