@@ -40,12 +40,6 @@ main {
     padding-top: 100px;
 }
 
-main:after {
-    content: "";
-    display: block;
-    clear: both;
-}
-
 #thisPage {
     background-color: #222222;
 }
@@ -283,69 +277,48 @@ img {
     margin-bottom: 5px;
 }
 
-@media screen and (max-width:440px) {
+@media screen and (max-width:600px) {
     nav {
-        float: none;
-        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        width: 100px;
     }
 
     nav ul li {
-        display: inline;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+        float: none;
+        width: 100px;
     }
 
-    nav a {
+    nav img {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+    nav ul {
+        height: 100%;
+        width: 100px;
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        background-color: darkolivegreen;
+        background-image: none;
+    }
+
+    nav .navLink {
+        padding: 0px;
+        padding-top: 20px;
+        margin: 0px;
+        height: 40px;
+        max-width: 100%;
+        min-width: 100%;
         display: inline-block;
     }
 
-    main {
-        margin-left: 0px;
-    }
-
-    header {
-        height: 100px;
-        background-size: auto 100px;
-    }
-}
-
-@media screen and (max-width:282px) {
-    nav {
-        margin: 0px;
-        padding: 0px;
-    }
-
-    nav ul li {
-        display: block;
-        margin: 0px;
-        padding: 0px;
-    }
-
-    nav a {
-        display: block;
-        border: 3px outset #700070;
-    }
-
-    main {
-        margin-left: 0px;
-    }
-}
-
-@media screen and (max-width:240px) {
-    #floatImg {
-        float: none;
-    }
-}
-
-@media screen and (max-width:340px) {
-    table {
-        box-shadow: none;
-        width: 100%;
-    }
-
-    table th, td {
-        display: block;
-    }
-
-    table tr {
-        border-bottom: 2px solid #333;
+    main, footer{
+        margin-left: 100px;
     }
 }
