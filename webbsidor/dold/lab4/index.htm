@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>1ME322, Laboration 4 - Händelser, drag and drop</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="events.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+
+<body>
+	<header>
+		<h1>1ME322 Webbteknik 2</h1>
+		<h3>Laboration 4 - Händelser, drag and drop</h3>
+	</header>
+	<main>
+		<h2>Svenska städer</h2>
+		<p>Här ska du känna igen motiv från städer i Sverige. Dra ett stadsnamn i listan till varje bild.<br>
+		Det finns fler namn i listan än bilder, så en del lämnar du kvar.</p>
+		<p><button type="button" id="startGameBtn">Starta spelet</button></p>
+		<div id="gameBoard">
+			<div id="words">
+				<ul>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+					<li>...</li>
+				</ul>
+			</div>
+			<div id="pics">
+				<div>
+					<img src="pics/empty.png" alt="Stadsbild" id="0" draggable="false">
+					<p><span class="userAnswer"></span><br><span class="correctAnswer"></span></p>
+				</div>
+				<div>
+					<img src="pics/empty.png" alt="Stadsbild" id="1" draggable="false">
+					<p><span class="userAnswer"></span><br><span class="correctAnswer"></span></p>
+				</div>
+				<div>
+					<img src="pics/empty.png" alt="Stadsbild" id="2" draggable="false">
+					<p><span class="userAnswer"></span><br><span class="correctAnswer"></span></p>
+				</div>
+				<div>
+					<img src="pics/empty.png" alt="Stadsbild" id="3" draggable="false">
+					<p><span class="userAnswer"></span><br><span class="correctAnswer"></span></p>
+				</div>
+			</div>
+			<img id="largePict" src="pics/empty.png" alt="Förstorad stadsbild" draggable="false">
+		</div> <!-- End gameBoard -->
+		<p>Dra ett namn till varje bild och klicka sedan på följande knapp. 
+			<button id="checkAnswersBtn">Kontrollera svar</button></p>
+		<div id="message"></div> <!-- Här skriver programmet meddelanden till användaren -->
+	</main>
+	<footer>
+		<p>Laboration 4 i 1ME322 Webbdteknik 2 på Linnéuniversitetet</p>
+	</footer>
+</body>
+</html>
