@@ -46,7 +46,7 @@ function startGame() {
 
 // Lägger till listeners för alla brickor.
 function addBrickListeners() {
-    brickElems = document.getElementsByClassName("brickBack");
+    brickElems = document.getElementById("bricks").getElementsByTagName("img");
     for (var i = 0; i < brickElems.length; i++) {
         addListener(brickElems[i], "click", turnBrick);
     }
@@ -56,6 +56,13 @@ function addBrickListeners() {
 function turnBrick() {
     if (turnedBricks[1] == null && started) {
         var index = [].slice.call(brickElems).indexOf(this); // Index of the brick that was clicked.
+
+        // Om första brickan är samma som den som blev klickad, return.
+        if (turnedBricks[0] == index) {
+            return;
+        }
+
+        this.className = "brickFront";
         this.src = "pics/" + bricks[index] + ".png";
 
         if (turnedBricks[0] == null && turnedBricks[1] == null) {
@@ -74,12 +81,16 @@ function checkMatch() {
     if (bricks[turnedBricks[0]] == bricks[turnedBricks[1]]) {
         brickElems[turnedBricks[0]].src = "pics/empty.png";
         brickElems[turnedBricks[1]].src = "pics/empty.png";
+        brickElems[turnedBricks[0]].className = "brickEmpty";
+        brickElems[turnedBricks[1]].className = "brickEmpty";
         removeListener(brickElems[turnedBricks[0]], "click", turnBrick);
         removeListener(brickElems[turnedBricks[1]], "click", turnBrick);
         pairCounter++;
     } else {
         brickElems[turnedBricks[0]].src = "pics/backside.png";
         brickElems[turnedBricks[1]].src = "pics/backside.png";
+        brickElems[turnedBricks[0]].className = "brickBack";
+        brickElems[turnedBricks[1]].className = "brickBack";
     }
     turnedBricks = [null, null];
     nextBtn.disabled = true;
@@ -109,6 +120,7 @@ function initBricks() {
 
     for (var i = 0; i < brickElems.length; i++) {
         brickElems[i].src = "pics/backside.png";
+        brickElems[i].className = "brickBack";
     }
 
     for (var i = 0; i < 8; i++) {
