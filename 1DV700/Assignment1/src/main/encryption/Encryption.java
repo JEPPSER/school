@@ -6,16 +6,26 @@ public class Encryption {
 	
 	public static String subEncrypt(String message, char key) {
 		String result = "";
+		key = (char) (Math.floorMod(key, 95));
 		for (byte b : message.getBytes()) {
-			result += (char) ((int) b ^ (int) key);
+			if (b < 32 || b > 127) {
+				result += (char) b;
+			} else {
+				result += (char) (Math.floorMod((int) b - 32 + (int) key, 95) + 32);
+			}
 		}
 		return result;
 	}
 	
 	public static String subDecrypt(String message, char key) {
 		String result = "";
+		key = (char) Math.floorMod(key, 95);
 		for (byte b : message.getBytes()) {
-			result += (char) ((int) b ^ (int) key);
+			if (b < 32 || b > 127) {
+				result += (char) b;
+			} else {
+				result += (char) (Math.floorMod((int) b - 32 - (int) key, 95) + 32);
+			}
 		}
 		return result;
 	}
@@ -37,10 +47,11 @@ public class Encryption {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 				if (counter >= message.length()) {
-					break;
+					matrix[i][j] = ' ';
+				} else {
+					matrix[i][j] = message.charAt(counter);
+					counter++;
 				}
-				matrix[i][j] = message.charAt(counter);
-				counter++;
 			}
 		}
 		
@@ -70,6 +81,9 @@ public class Encryption {
 		int counter = 0;
 		for (int i : positions) {
 			for (int j = 0; j < matrix.length; j++) {
+				if (counter >= message.length()) {
+					break;
+				}
 				matrix[j][i] = message.charAt(counter);
 				counter++;
 			}
