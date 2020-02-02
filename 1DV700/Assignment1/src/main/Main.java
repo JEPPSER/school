@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -92,8 +93,12 @@ public class Main extends Application {
 							createTextFile(str, outputPath);
 						}
 					} else if (trans.isSelected()) {
-						String str = Encryption.transEncrypt(message, keyField.getText());
-						createTextFile(str, outputPath);
+						if (!isAlphabetic(keyField.getText()) || hasDuplicates(keyField.getText())) {
+							warningAlert("Transposition keys must be an alphabetic string containing only unique letters.");
+						} else {
+							String str = Encryption.transEncrypt(message, keyField.getText());
+							createTextFile(str, outputPath);
+						}
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -119,8 +124,12 @@ public class Main extends Application {
 							createTextFile(str, outputPath);
 						}
 					} else if (trans.isSelected()) {
-						String str = Encryption.transDecrypt(message, keyField.getText());
-						createTextFile(str, outputPath);
+						if (!isAlphabetic(keyField.getText()) || hasDuplicates(keyField.getText())) {
+							warningAlert("Transposition keys must be an alphabetic string containing only unique letters.");
+						} else {
+							String str = Encryption.transDecrypt(message, keyField.getText());
+							createTextFile(str, outputPath);
+						}
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -141,6 +150,27 @@ public class Main extends Application {
 
 	private boolean isNumeric(String str) {
 		return str.matches("\\d+");
+	}
+	
+	private boolean isAlphabetic(String str) {
+		for (byte c : str.getBytes()) {
+			if (!Character.isAlphabetic(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean hasDuplicates(String str) {
+		ArrayList<Byte> chars = new ArrayList<Byte>();
+		for (byte c : str.getBytes()) {
+			if (chars.contains(c)) {
+				return true;
+			} else {
+				chars.add(c);
+			}
+		}
+		return false;
 	}
 
 	private static void createTextFile(String message, String path) {
