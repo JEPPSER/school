@@ -38,7 +38,7 @@ public class Main extends Application {
 
 		HBox urlBox = new HBox();
 		urlBox.setSpacing(5);
-		Text urlText = new Text("URL:");
+		Text urlText = new Text("File:");
 		TextField urlField = new TextField();
 		Button browseBtn = new Button("Browse");
 		FileChooser fc = new FileChooser();
@@ -93,10 +93,11 @@ public class Main extends Application {
 							createTextFile(str, outputPath);
 						}
 					} else if (trans.isSelected()) {
-						if (!isAlphabetic(keyField.getText()) || hasDuplicates(keyField.getText())) {
-							warningAlert("Transposition keys must be an alphabetic string containing only unique letters.");
+						String key = removeDuplicates(keyField.getText());
+						if (!isAlphabetic(key)) {
+							warningAlert("Transposition keys must be an alphabetic string.");
 						} else {
-							String str = Encryption.transEncrypt(message, keyField.getText());
+							String str = Encryption.transEncrypt(message, key);
 							createTextFile(str, outputPath);
 						}
 					}
@@ -124,10 +125,11 @@ public class Main extends Application {
 							createTextFile(str, outputPath);
 						}
 					} else if (trans.isSelected()) {
-						if (!isAlphabetic(keyField.getText()) || hasDuplicates(keyField.getText())) {
-							warningAlert("Transposition keys must be an alphabetic string containing only unique letters.");
+						String key = removeDuplicates(keyField.getText());
+						if (!isAlphabetic(key)) {
+							warningAlert("Transposition keys must be an alphabetic string.");
 						} else {
-							String str = Encryption.transDecrypt(message, keyField.getText());
+							String str = Encryption.transDecrypt(message, key);
 							createTextFile(str, outputPath);
 						}
 					}
@@ -171,6 +173,18 @@ public class Main extends Application {
 			}
 		}
 		return false;
+	}
+	
+	private String removeDuplicates(String str) {
+		String result = "";
+		ArrayList<Byte> chars = new ArrayList<Byte>();
+		for (byte c : str.getBytes()) {
+			if (!chars.contains(c)) {
+				chars.add(c);
+				result += (char) c;
+			}
+		}
+		return result;
 	}
 
 	private static void createTextFile(String message, String path) {

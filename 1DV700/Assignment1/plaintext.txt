@@ -1,0 +1,19 @@
+***************************************************************************************************
+*                                                                                                 *
+*                                Secret message - Top Secret                                      *
+*                                                                                                 *
+*                      May only be read by security passed personnel                              *
+*                                                                                                 *
+***************************************************************************************************
+
+One idea behind Java's automatic memory management model is that programmers should be spared the burden of having to perform manual memory management. In some languages the programmer allocates memory to create any object stored on the heap and is responsible for later manually deallocating that memory to delete any such objects. If a programmer forgets to deallocate memory or writes code that fails to do so in a timely fashion, a memory leak can occur: the program will consume a potentially arbitrarily large amount of memory. In addition, if a region of memory is deallocated twice, the program can become unstable and may crash. Finally, in non garbage collected environments, there is a certain degree of overhead and complexity of user-code to track and finalize allocations.
+
+In Java, this potential problem is avoided by automatic garbage collection. The programmer determines when objects are created, and the Java runtime is responsible for managing the object's lifecycle. The program or other objects can reference an object by holding a reference to it (which, from a low-level point of view, is its address on the heap). When no references to an object remain, the Java garbage collector automatically deletes the unreachable object, freeing memory and preventing a memory leak. Memory leaks may still occur if a programmer's code holds a reference to an object that is no longer needed—in other words, they can still occur but at higher conceptual levels.
+
+The use of garbage collection in a language can also affect programming paradigms. If, for example, the developer assumes that the cost of memory allocation/recollection is low, they may choose to more freely construct objects instead of pre-initializing, holding and reusing them. With the small cost of potential performance penalties (inner-loop construction of large/complex objects), this facilitates thread-isolation (no need to synchronize as different threads work on different object instances) and data-hiding. The use of transient immutable value-objects minimizes side-effect programming.
+
+Comparing Java and C++, it is possible in C++ to implement similar functionality (for example, a memory management model for specific classes can be designed in C++ to improve speed and lower memory fragmentation considerably), with the possible cost of extra development time and some application complexity. In Java, garbage collection is built-in and virtually invisible to the developer. That is, developers may have no notion of when garbage collection will take place as it may not necessarily correlate with any actions being explicitly performed by the code they write. Depending on intended application, this can be beneficial or disadvantageous: the programmer is freed from performing low-level tasks, but at the same time loses the option of writing lower level code.
+      
+Jesper Bergström
+      
+***************************************************************************************************
