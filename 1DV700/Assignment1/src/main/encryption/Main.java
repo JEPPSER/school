@@ -1,4 +1,4 @@
-package main;
+package main.encryption;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.encryption.Encryption;
 
 public class Main extends Application {
 
