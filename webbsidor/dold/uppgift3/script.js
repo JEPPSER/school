@@ -42,6 +42,7 @@ function startGame() {
     started = true;
     startGameBtn.disabled = true;
     nrOfBricksMenu.disabled = true;
+    turnNr.innerHTML = "0";
 }
 
 // Lägger till listeners för alla brickor.
@@ -105,6 +106,7 @@ function endGame() {
     if (points < 0) {
         points = 0;
     }
+    turnNr.innerHTML += "<br>Du hittade alla par! Poäng: " + Math.round(points);
     window.localStorage.points = Number(window.localStorage.points) + Math.round(points);
     userTotPoints.innerHTML = window.localStorage.points;
     startGameBtn.disabled = false;
