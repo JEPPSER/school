@@ -4,6 +4,28 @@ import java.util.Arrays;
 
 public class Encryption {
 	
+	public static String hash(String message) {
+		int count = 0;
+		
+		// Add all byte values
+		for (byte b : message.getBytes()) {
+			count += b;
+		}
+		
+		// Some magic
+		count = (int) Math.pow(count | (message.length() * 100), 2);
+		
+		char one = (char) (Math.floorMod(count, 95) + 32);
+		
+		// More magic
+		count = (int) Math.round(Math.sqrt(count));
+		count = (int) Math.pow(count, 1.23456);
+		
+		char two = (char) (Math.floorMod(count, 95) + 32);
+		
+		return String.valueOf(one) + String.valueOf(two);
+	}
+	
 	public static String subEncrypt(String message, char key) {
 		String result = "";
 		key = (char) (Math.floorMod(key, 95));

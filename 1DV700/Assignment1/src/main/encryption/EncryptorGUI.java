@@ -23,7 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class EncryptorGUI extends Application {
 
 	public static void main(String[] args) {
 		launch();
