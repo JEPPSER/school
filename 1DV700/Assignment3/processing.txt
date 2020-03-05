@@ -1,0 +1,21 @@
+<flowchart>
+Start a
+a.text="Fetch data from source"
+Step b
+b.text="Validate content"
+a->b
+If c
+c.text="Valid?"
+b->c
+End d
+d.text="Discard and log the incident"
+c.no=d
+Step e
+e.text="Create data object"
+c.yes=e
+Step f
+f.text="Assign all attributes"
+e->f
+End g
+g.text="Add to database"
+f->g

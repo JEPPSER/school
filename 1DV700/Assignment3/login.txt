@@ -1,0 +1,16 @@
+<flowchart>
+Start a
+a.text="Start"
+Step b
+b.text="User clicks login"
+a->b
+Step c
+c.text="User authentication"
+b->c
+If d
+d.text="Is user authenticated?"
+c->d
+d.no=b
+End e
+e.text="Access to system"
+d.yes=e

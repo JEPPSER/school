@@ -1,0 +1,12 @@
+<flowchart>
+Start a
+a.text="User input"
+Step b
+b.text="Generate SQL query string"
+a->b
+Step c
+c.text="Fetch data from the database"
+b->c
+End d
+d.text="Display data"
+c->d
