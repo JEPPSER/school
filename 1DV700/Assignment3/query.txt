@@ -5,8 +5,22 @@ Step b
 b.text="Generate SQL query string"
 a->b
 Step c
-c.text="Fetch data from the database"
+c.text="Fetch list of data objects from database"
 b->c
-End d
-d.text="Display data"
-c->d
+If e
+e.text="Checked all?"
+c->e
+Step d
+d.text="Check privilege requirement for object"
+e.no=d
+End end
+end.text="Display all data"
+e.yes=end
+If f
+f.text="Has privilege?"
+d->f
+Step g
+g.text="Remove object from list"
+f.yes=e
+f.no=g
+g->e
