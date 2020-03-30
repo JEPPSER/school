@@ -1,6 +1,8 @@
+var info = document.getElementById("info");
+
 // set the dimensions and margins of the graph
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-    width = 700 - margin.left - margin.right,
+    width = 900 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -20,14 +22,13 @@ d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignme
 
     // Then d3.treemap computes the position of each element of the hierarchy
     d3.treemap()
-        .size([width, height])
-        .paddingTop(10)
-        .paddingRight(7)
-        .paddingInner(3)
+        .size([width - 200, height])
         (root)
 
+    var keys = ["Oil spill", "Forest Loss", "Destroyed land", "UK area", "Earthquakes", "Floods"];
+
     var color = d3.scaleOrdinal()
-        .domain(["Oil spill", "Forest Loss", "Destroyed land", "UK area", "Earthquakes", "Floods"])
+        .domain(keys)
         .range(["#402D54", "#D18975", "#8FD175", "#249945", "#8F0000", "#8FD1FF"])
 
     // use this information to add rectangles:
@@ -42,16 +43,37 @@ d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignme
         .attr('height', function (d) { return d.y1 - d.y0; })
         .style("stroke", "black")
         .style("fill", function (d) { return color(d.parent.data.name) })
+        .on("mouseover", function (d) {
+            info.innerHTML = "<h1>" + d.data.name + ": " + d.value + " \u33A1</h1>";
+        })
+        .on("mouseout", function (d) {
+            info.innerHTML = "";
+        })
 
-    // Add title for the 3 groups
+    var size = 20;
+
     svg
-        .selectAll("titles")
-        .data(root.descendants().filter(function (d) { return d.depth == 1 }))
+        .selectAll("dots")
+        .data(keys)
+        .enter()
+        .append("rect")
+        .attr("x", 700)
+        .attr("y", function (d, i) {
+            return i * 25;
+        })
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function (d) { return color(d) })
+
+    svg
+        .selectAll("labels")
+        .data(keys)
         .enter()
         .append("text")
-        .attr("x", function (d) { return d.x0 })
-        .attr("y", function (d) { return d.y0 + 5})
-        .text(function (d) { return d.data.name })
-        .attr("font-size", "15px")
-        .attr("fill", function (d) { return color(d.data.name) })
+        .attr("x", 730)
+        .attr("y", function (d,i) { return i * (size + 5) + (size / 2) })
+        .style("fill", function(d){ return color(d)})
+        .text(function(d){ return d })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
 })
