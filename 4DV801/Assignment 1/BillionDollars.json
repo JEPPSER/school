@@ -1,0 +1,149 @@
+{
+ "name": "World wide spending in billion dollars",
+ "children": [
+ 	{
+ 		"name": "earning",
+ 		"children" : [
+ 			{"size":1027,"name":"OPEC revenue","description":"2011 net oil export revenues","source_name":"Energy Information Administration","source_link":"http://www.eia.gov/countries/regions-topics.cfm?fips=OPEC",
+ 			 "children": [ 
+				{"size":3,"name":"Climate Change Fund","description":"Climate Change Fund, 2007","source_name":"The Times","source_link":"http://www.thetimes.co.uk/tto/business/industries/naturalresources/article2181042.ece"}
+ 	 		 ]
+ 	 		},
+ 			{"size":1161.8,"name":"Alcohol industry","description":"Global size, 2011","source_name":"Market Link","source_link":"http://www.reportlinker.com/p0171893-summary/Alcoholic-Drinks-Global-Industry-Guide.html",
+ 			 "children": [ 
+ 			 	{"size":523.5,"name":"Beer","description":"Global, by 2015","source_name":"Report Linker","source_link":"http://www.reportlinker.com/ci02015/Beer.html"}
+ 			 ]
+ 			 },
+ 			{"size":950,"name":"Global pharma market","description":"Global drugs market","source_name":"Forbes","source_link":"http://www.forbes.com/sites/matthewherper/2012/07/12/the-global-drug-market-will-swell-to-1-2-trillion-while-big-pharma-treads-water/",
+ 			 "children": [ 
+ 			 	{"size":60,"name":"Alt Medicine","description":"Alternative Medicine Global market, 2011","source_name":"The Economist","source_link":"http://www.economist.com/node/18712290"},
+				{"size":307,"name":"US drug prescriptions","description":"US prescription drugs sales, 2010","source_name":"Pharmacy Times","source_link":"http://www.pharmacytimes.com/media/pdf/0cef8067f3c61e88911fa54924790d67.pdf"}
+ 			  ]
+ 			 },
+ 			{"size":500,"name":"Apple","description":"Apple market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf",
+ 			 "children": [ 
+ 			 	{"size":41.73,"name":"Apple profit","description":"Apple profit, 2012","source_name":"Market Watch","source_link":"http://www.marketwatch.com/investing/stock/aapl/financials"}
+	 		  ]
+ 			},
+ 			{"size":364.66,"name":"Worldwide TV industry","description":"Global revenue, 2009","source_name":"Idate","source_link":"http://www.idate.org/en/News/World-Television-Market_664.html"},
+			{"size":224,"name":"Microsoft","description":"Microsoft market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf"},
+			{"size":228,"name":"Walmart","description":"Walmart market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf",
+			 "children": [ 
+ 				{"size":26.5,"name":"Walmart profit","description":"Walmart proft, 2012","source_name":"Walmart Stores","source_link":"http://www.walmartstores.com/sites/annual-report/2012/financials.aspx"}
+  			  ]
+	 		},
+	 		{"size":175,"name":"Ebay sales","description":"Ebay sales, 2012","source_name":"Ebay inc","source_link":"http://investor.ebayinc.com/releaseDetail.cfm?ReleaseID=733959%20"},
+			{"size":187,"name":"Google","description":"Google market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf"},
+			{"size":132,"name":"BP","description":"BP market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf",
+			 "children": [ 
+ 				{"size":17.6,"name":"BP profit","description":"2012 underlying replacement cost profit","source_name":"BP Quarterly Reports","source_link":"http://www.bp.com/extendedgenericarticle.do?categoryId=2012968&contentId=7083528"}
+			  ]			
+			},
+			{"size":113,"name":"Amazon","description":"Amazon market capitalisation, 2012","source_name":"Financial Times Global 500 Dec 2012","source_link":"http://media.ft.com/cms/2a53e388-569a-11e2-aa70-00144feab49a.pdf"},
+			{"size":67,"name":"Bill Gates","description":"Bill Gates net worth, 2013","source_name":"Forbes","source_link":"http://www.forbes.com/profile/bill-gates/"},
+			{"size":73,"name":"Carlos Slim Helu","description":"Carlos Slim Helu, richest man in the world, net worth, 2013","source_name":"Forbes","source_link":"http://www.forbes.com/pictures/mel45ghdi/carlos-slim-helu-2/"}
+ 		]
+ 	},
+ 	{
+ 		"name": "losing",
+ 		"children" : [
+ 			{"size":14710,"name":"US foreign debt","description":"2011","source_name":"CIA World Factbook","source_link":"https://www.cia.gov/library/publications/the-world-factbook/geos/us.html"},
+			{"size":15000,"name":"Global financial crisis","description":"Total global losses from the financial crisis","source_name":"Wall Street Journal","source_link":"http://blogs.wsj.com/economics/2012/10/01/total-global-losses-from-financial-crisis-15-trillion/",
+			 "children": [
+			 	{"size":650,"name":"Eurozone rescue fund","description":"","source_name":"BBC News","source_link":"http://www.bbc.co.uk/news/business-19868868"},
+			 	{"size":1375,"name":"losses from US residential mortgage loans","description":"","source_name":"Wall Street Journal","source_link":"http://blogs.wsj.com/economics/2012/10/01/total-global-losses-from-financial-crisis-15-trillion/"}
+
+			 ]
+			},
+			{"size":4900,"name":"Developing countries foreign debt","description":"2011","source_name":"World Bank","source_link":"http://www.worldbank.org/en/news/press-release/2012/12/20/world-bank-releases-international-debt-statistics",
+			 "children": [
+				{"size":200,"name":"Africa's foreign debt","description":"","source_name":"Africa Action","source_link":"http://www.africaaction.org/cancel-africas-debt.html"}
+			 ]
+			},
+			{"size":901,"name":"US budget deficit","description":"2013","source_name":"BBC News","source_link":"http://www.bbc.co.uk/news/world-us-canada-17014744"},
+			{"size":175,"name":"US TARP Banks bailout","description":"US gov's 'Troubled Asset Relief Program' for 9 major US banks","source_name":"Wall Street Journal","source_link":"http://online.wsj.com/article/SB124896891815094085.html",
+			 "children": [
+				{"size":32.6,"name":"Bonuses for bankers","description":"$ paid out by 9 US banks that had received TARP funding (2008)","source_name":"Wall Street Journal","source_link":"http://online.wsj.com/article/SB124896891815094085.html"}
+
+			 ]
+			}
+ 		]
+ 	},
+ 	{
+ 		"name": "fighting",
+ 		"children" : [
+ 			{"size":1617,"name":"Global military spending","description":"Global defence expenditure, 2011","source_name":"See a breakdown","source_link":"http://dev.informationisbeautiful.net/military-budgets-billions/",
+ 			 "children": [
+ 			 	{"size":89.8,"name":"China","description":"China defence, 2011","source_name":"IISS","source_link":"http://www.iiss.org/publications/military-balance/the-military-balance-2012/press-statement/figure-comparative-defence-statistics/"},
+				{"size":739.3,"name":"US","description":"US defence, 2011","source_name":"IISS","source_link":"http://www.iiss.org/publications/military-balance/the-military-balance-2012/press-statement/figure-comparative-defence-statistics/"}
+ 			 ]
+ 			},
+ 			{"size":1000,"name":"The War on Drugs","description":"Total spent on US war on drugs, since 1971 (inflation adjusted)","source_name":"CNN","source_link":"http://edition.cnn.com/2012/12/06/opinion/branson-end-war-on-drugs"},
+			{"size":1280,"name":"The War on Terror","description":"","source_name":"Huffington Post","source_link":"http://www.huffingtonpost.com/2011/05/02/osama-bin-laden-dead-war-on-terror-costs_n_856390.html",
+			 "children": [
+				{"size":55,"name":"Predicted cost 2003","description":"Iraq War, predicted cost,2003","source_name":"NY Times","source_link":"http://www.nytimes.com/2008/03/19/washington/19cost.html"},
+ 				{"size":557.1,"name":"Afghanistan cost for US","description":"","source_name":"Guardian datablog","source_link":"http://www.guardian.co.uk/news/datablog/2013/mar/14/iraq-ten-years-visualised"}
+			 ]
+			}
+ 		]
+ 	},
+ 	{
+ 		"name": "spending",
+ 		"children" : [
+ 			{"size":499.5,"name":"Fast food restaurants","description":"Global fast food restaurant revenues, 2012","source_name":"IBIS World","source_link":"http://www.ibisworld.com/industry/global/global-fast-food-restaurants.html"},
+			{"size":740,"name":"Tobacco","description":"Global tobacco industry revenue, 2011","source_name":"Euromonitor","source_link":"http://blog.euromonitor.com/2012/06/new-tobacco-research-what-is-it-telling-us.html"},
+			{"size":419,"name":"Gambling","description":"Global gambling revenues, 2011","source_name":"Global Betting & Gaming Consultancy","source_link":"http://www.gbgc.com/2012/02/2011-global-gambling-revenues-passed-us-400-billion/"},
+			{"size":486,"name":"US space programme (1959-2015)","description":"US space programmes, 1959-2015 (inflation-adjusted)","source_name":"The Space Review","source_link":"http://www.thespacereview.com/article/1579/1",
+			 "children": [
+			 	{"size":17.8,"name":"NASA","description":"NASA annual budget, 2012","source_name":"NASA","source_link":"http://www.nasa.gov/pdf/659660main_NASA_FY13_Budget_Estimates-508-rev.pdf"}
+			 ]
+			},
+			{"size":400,"name":"Prostitution","description":"Global revenue, 2009","source_name":"Morss, Global Finance PhD (2009)","source_link":"http://www.morssglobalfinance.com/the-economics-of-the-global-entertainment-industry/"},
+			{"size":67,"name":"Video games","description":"Global revenue, 2012","source_name":"Forbes","source_link":"http://www.forbes.com/sites/johngaudiosi/2012/07/18/new-reports-forecasts-global-video-game-industry-will-reach-82-billion-by-2017/"},
+			{"size":64,"name":"Movies","description":"Global consumer spending on movies, 2012","source_name":"IP & TV News","source_link":"http://www.iptv-news.com/2013/01/worldwide-consumer-spending-on-movies-up-in-2012/"}
+ 		]
+ 	},
+ 	{
+ 		"name": "hustling",
+ 		"children" : [
+ 			{"size":21000,"name":"Money in offshore tax havens","description":"Money in offshore tax havens by the end of 2010","source_name":"BBC News","source_link":"http://www.bbc.co.uk/news/business-18944097",
+ 			 "children": [
+ 			 	{"size":3100,"name":"Annual cost of tax evasion","description":"Global tax evasion each year","source_name":"New Statesman","source_link":"http://www.newstatesman.com/blogs/the-staggers/2011/11/tax-avoidance-justice-network",
+ 			 		"children": [
+						{"size":337,"name":"Cost of US tax evasion","description":"each year","source_name":"Tackle Tax Havens","source_link":"http://www.tackletaxhavens.com/Cost_of_Tax_Abuse_TJN_Research_23rd_Nov_2011.pdf"}
+ 			 		]
+ 			 	}
+			 ]
+ 			},
+ 			{"size":2100,"name":"Organised crime","description":"Worldwide turnover of organised crime","source_name":"UNODC","source_link":"http://www.unodc.org/documents/data-and-analysis/Studies/Illicit_financial_flows_2011_web.pdf",
+ 			 "children": [
+ 			 	{"size":14,"name":"Italian Mafia revenue","description":"Italian Mafia criminal activities","source_name":"Reuters","source_link":"http://www.reuters.com/article/2013/01/17/us-italy-mafia-idUSBRE90G1CV20130117"}
+ 			 ]
+ 			},
+ 			{"size":672,"name":"Illegal drugs market","description":"Global revenue, 2009","source_name":"Morss, Global Finance PhD (2009)","source_link":"http://www.morssglobalfinance.com/the-economics-of-the-global-entertainment-industry/",
+ 			 "children": [
+ 			 	{"size":122,"name":"Cocaine","description":"Global revenue, 2009","source_name":"Morss, Global Finance PhD (2009)","source_link":"http://www.morssglobalfinance.com/the-economics-of-the-global-entertainment-industry/"},
+				{"size":410,"name":"Cannabis","description":"Global revenue","source_name":"Morss, Global Finance PhD (2009)","source_link":"http://www.morssglobalfinance.com/the-economics-of-the-global-entertainment-industry/"}
+ 			 ]
+ 			}
+ 		]
+ 	},
+ 	{
+ 		"name": "giving",
+ 		"children" : [
+ 			{"size":5700,"name":"Global healthcare budget","description":"","source_name":"Tackle Tax Havens","source_link":"http://www.tackletaxhavens.com/Cost_of_Tax_Abuse_TJN_Research_23rd_Nov_2011.pdf",
+ 			 "children": [
+ 			 	{"size":1200,"name":"US healthcare","description":"US total healthcare (state, federal & local government)","source_name":"US government spending","source_link":"http://www.usgovernmentspending.com/current_spending",
+ 			 	"children": [
+ 			 		{"size":190,"name":"US cost of obesity","description":"Social cost of obesity-related illnesses, US each year","source_name":"Harvard School of Public Health","source_link":"http://www.hsph.harvard.edu/obesity-prevention-source/obesity-consequences/economic/"},
+					{"size":484,"name":"Medicare","description":"US federal medicare budget, 2012","source_name":"Washington Post","source_link":"http://www.washingtonpost.com/blogs/wonkblog/wp/2012/07/17/the-state-of-medicaid-in-charts/"}
+ 			 	 ]
+ 			 	}
+ 			 ]
+ 			},
+			{"size":3500,"name":"To end extreme poverty within 20 years","description":"Total cost to end extreme poverty within 20 years","source_name":"The End of Poverty, Jeffrey Sach","source_link":"http://www.visionofearth.org/economics/ending-poverty/how-much-would-it-cost-to-end-extreme-poverty-in-the-world/"},
+			{"size":298.42,"name":"Charitable donations by US public","description":"Charitable donations by US public, 2012","source_name":"Giving USA","source_link":"http://www.alysterling.com/documents/GUSA2012ExecutiveSummary.pdf"}
+ 		]
+ 	}
+ ]
+}

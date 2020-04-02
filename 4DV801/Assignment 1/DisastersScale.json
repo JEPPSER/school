@@ -1,0 +1,50 @@
+{
+ "name": "Disasters, scale of devastation in square meters",
+ "children": [
+	{
+   	"name": "Oil spill",
+   	"children": [
+    	{"name": "Exxon Valdez oil spill", "size": 28000},
+    	{"name": "Deep Water Horizon oil spill", "size": 5750}
+	 ]
+  	},
+  	{
+     "name": "Forest Loss",
+     "children": [
+    	{"name": "Amazon rainforest depletion yearly", "size": 6400},
+     	{"name": "Forest loss Indonesia yearly", "size": 5900}
+     ]
+    },
+    {
+     "name": "Destroyed land",
+     "children": [
+      	{"name": "Arable land destroyed by 2010 Russian heatwave", "size": 114500},
+      	{"name": "Wildfire during 2010 Russian heatwave", "size": 8800},
+      	{"name": "Chernobyl exclusion zone", "size": 1300}
+     ]
+    }, 
+    {
+     "name": "UK area",
+     "children": [
+      	{"name": "United Kingdom surface area", "size": 242000}
+     ]
+    },  
+    {
+     "name": "Earthquakes",
+     "children": [
+      {"name": "Haiti earthquake 2010", "size": 13000},
+      {"name": "Chile earthquake 2010", "size": 300000},
+      {"name": "New Zealand earthquake", "size": 5800},
+      {"name": "Japanese earthquake 1011", "size": 140000}
+     ]
+    },
+    {
+     "name": "Floods",
+     "children": [
+      {"name": "Thailand floods 2011", "size": 60000},
+      {"name": "Pakistan floods2011", "size": 114500},
+      {"name": "Australian floods 2010", "size": 850000}
+     ]
+    }
+    ]
+}
