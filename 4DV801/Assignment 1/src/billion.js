@@ -6,12 +6,12 @@ svgElem.addEventListener("contextmenu", function () {
     return false;
 });
 
-// set the dimensions and margins of the graph
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
     width = 1000 - margin.left - margin.right,
     height = 800 - margin.top - margin.bottom;
 
 var original;
+var source_url;
 
 d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignment%201/BillionDollars.json", function (data) {
     original = data;
@@ -27,17 +27,6 @@ function switchData(data, color) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-    // Calculate the size of the high level children.
-    if (data.name == "World wide spending in billion dollars") {
-        for (var i = 0; i < data.children.length; i++) {
-            var sum = 0;
-            for (var j = 0; j < data.children[i].children.length; j++) {
-                sum += data.children[i].children[j].size;
-            }
-            data.children[i].size = sum;
-        }
-    }
 
     if (color == null) {
         var keys = ["earning", "losing", "fighting", "spending", "hustling", "giving"];
@@ -62,7 +51,7 @@ function switchData(data, color) {
 
     var treemapLayout = d3.treemap()
         .size([width, height])
-        .paddingOuter(25);
+        .paddingOuter(20);
 
     var root = d3.hierarchy(data).sum(function (d) { return d.size });
     treemapLayout(root);
@@ -84,10 +73,33 @@ function switchData(data, color) {
             switchData(original, null);
         })
         .on("mouseover", function (d) {
-            info.innerHTML = "<h1>" + d.data.name + ": " + d.value;
+            source_url = null;
+            info.innerHTML = "<h1>" + d.data.name + "</h1>";
+            info.innerHTML += "<h3>Value: " + d.value + " billion dollars</h3>";
+
+            if (d.data.description != undefined) {
+                info.innerHTML += "<h3>Description: " + d.data.description + "</h3>"; 
+            }
+
+            if (d.data.source_name != undefined) {
+                info.innerHTML += "<h3>Source name: " + d.data.source_name + "</h3>";
+            }
+
+            if (d.data.source_link != undefined) {
+                source_url = d.data.source_link;
+                info.innerHTML += "<h3>Source link: " + d.data.source_link + " (press enter key)</h3>";
+            }
         })
         .on("mouseout", function (d) {
             info.innerHTML = "";
+            source_url = null;
+        })
+
+    d3.select("body")
+        .on("keydown", function() {
+            if (d3.event.key == "Enter" && source_url != null) {
+                window.location = source_url;
+            }
         })
 
     var nodes = d3.select('svg g')
@@ -99,8 +111,8 @@ function switchData(data, color) {
 
     nodes
         .append('text')
-        .attr('dx', 4)
-        .attr('dy', 16)
+        .attr('dx', 2)
+        .attr('dy', 14)
         .text(function (d) {
             var width = d.x1 - d.x0;
             var height = d.y1 - d.y0;

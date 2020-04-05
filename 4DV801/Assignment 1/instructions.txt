@@ -1,0 +1,3 @@
+To run the visualizations, open the src folder
+and open the index.html file in a web browser.
+The page will contain 2 links to the visualizations.

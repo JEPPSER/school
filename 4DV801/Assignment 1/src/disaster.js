@@ -1,11 +1,9 @@
 var info = document.getElementById("info");
 
-// set the dimensions and margins of the graph
 var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-    width = 900 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    width = 1300 - margin.left - margin.right,
+    height = 800 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
 var svg = d3.select("#disaster")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -14,13 +12,10 @@ var svg = d3.select("#disaster")
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
-// read json data
 d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignment%201/DisastersScale.json", function (data) {
 
-    // Give the data to this cluster layout:
-    var root = d3.hierarchy(data).sum(function (d) { return d.size }) // Here the size of each leave is given in the 'value' field in input data
+    var root = d3.hierarchy(data).sum(function (d) { return d.size })
 
-    // Then d3.treemap computes the position of each element of the hierarchy
     d3.treemap()
         .size([width - 200, height])
         (root)
@@ -29,9 +24,8 @@ d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignme
 
     var color = d3.scaleOrdinal()
         .domain(keys)
-        .range(["#402D54", "#D18975", "#8FD175", "#249945", "#8F0000", "#8FD1FF"])
+        .range(["#c4b241", "#2e38c7", "#c44f4b", "#249945", "#8F3399", "#8FD1FF"])
 
-    // use this information to add rectangles:
     svg
         .selectAll("rect")
         .data(root.leaves())
@@ -57,7 +51,7 @@ d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignme
         .data(keys)
         .enter()
         .append("rect")
-        .attr("x", 700)
+        .attr("x", width - 175)
         .attr("y", function (d, i) {
             return i * 25;
         })
@@ -70,10 +64,30 @@ d3.json("https://raw.githubusercontent.com/JEPPSER/school/master/4DV801/Assignme
         .data(keys)
         .enter()
         .append("text")
-        .attr("x", 730)
+        .attr("x", width - 150)
         .attr("y", function (d,i) { return i * (size + 5) + (size / 2) })
         .style("fill", function(d){ return color(d)})
         .text(function(d){ return d })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
+
+    var nodes = d3.select('svg g')
+        .selectAll('g')
+        .data(root.leaves())
+        .enter()
+        .append('g')
+        .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+
+    nodes
+        .append('text')
+        .attr('dx', 2)
+        .attr('dy', 14)
+        .text(function (d) {
+            var width = d.x1 - d.x0;
+            var height = d.y1 - d.y0;
+            if (d.data.name.length > width / 7 || height < 12) {
+               return ""; 
+            }
+            return d.data.name;
+        })
 })

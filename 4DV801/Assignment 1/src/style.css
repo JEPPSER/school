@@ -2,3 +2,7 @@ rect {
     opacity: 0.4;
     stroke: black;
 }
+
+h1, h3 {
+    margin: 5px;
+}
