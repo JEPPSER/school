@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    mapitem.cpp \
     mapscene.cpp \
     mapview.cpp
 
 HEADERS += \
     mainwindow.h \
+    mapitem.h \
     mapscene.h \
     mapview.h
 
