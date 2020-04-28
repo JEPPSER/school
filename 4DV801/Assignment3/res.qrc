@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file>mock.png</file>
+        <file>map.jpg</file>
     </qresource>
     <qresource prefix="/text">
         <file>temperature-monthly-europe.csv</file>

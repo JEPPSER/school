@@ -34,7 +34,12 @@ public:
     ~MainWindow();
 
 private:
+    QPointF coordinatesToPixel(qreal lat, qreal lon);
+
     MapScene *Scene;
     MapView *View;
+
+    int year;
+    int month;
 };
 #endif // MAINWINDOW_H

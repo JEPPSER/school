@@ -189,6 +189,7 @@ release\qrc_res.cpp: ..\Assignment3\res.qrc \
 		C:\Qt\5.14.2\msvc2017\bin\rcc.exe \
 		..\Assignment3\temperature-monthly-europe.csv \
 		..\Assignment3\stations-europe.csv \
+		..\Assignment3\map.jpg \
 		..\Assignment3\mock.png
 	C:\Qt\5.14.2\msvc2017\bin\rcc.exe -name res ..\Assignment3\res.qrc -o release\qrc_res.cpp
 

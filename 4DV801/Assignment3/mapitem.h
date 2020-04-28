@@ -12,6 +12,7 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const override;
+    QColor color = Qt::blue;
 
 private:
     QPolygonF shape;
