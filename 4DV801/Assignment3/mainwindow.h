@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "mapscene.h"
+#include "mapview.h"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -10,5 +13,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private:
+    MapScene *Scene;
+    MapView *View;
 };
 #endif // MAINWINDOW_H
