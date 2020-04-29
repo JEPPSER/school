@@ -8,7 +8,7 @@ class MapItem : public QGraphicsObject
 {
 public:
     MapItem(QGraphicsItem *parent = nullptr);
-    MapItem(qreal x, qreal y, QGraphicsItem *parent = nullptr);
+    MapItem(qreal x, qreal y, int size, QGraphicsItem *parent = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const override;

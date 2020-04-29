@@ -4,10 +4,10 @@ MapItem::MapItem(QGraphicsItem *parent) : QGraphicsObject(parent)
 {
 }
 
-MapItem::MapItem(qreal x, qreal y, QGraphicsItem *parent)
+MapItem::MapItem(qreal x, qreal y, int size, QGraphicsItem *parent)
     : QGraphicsObject(parent)
 {
-    shape << QPointF(x, y) << QPointF(x + 10, y) << QPointF(x + 10, y + 10) << QPointF(x, y + 10);
+    shape << QPointF(x, y) << QPointF(x + size, y) << QPointF(x + size, y + size) << QPointF(x, y + size);
 }
 
 QRectF MapItem::boundingRect() const

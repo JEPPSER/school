@@ -3,6 +3,10 @@
 #include <QDebug>
 #include <QFile>
 #include <QtMath>
+#include <QVBoxLayout>
+#include <QSlider>
+#include <QDockWidget>
+#include <QLabel>
 
 #include "mapitem.h"
 
@@ -10,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     Q_UNUSED(parent);
 
-    year = 1995;
-    month = 6;
+    year = 2001;
+    month = 7;
 
     Scene = new MapScene(0, 0, 700, 700);
     QPixmap pim = QPixmap(":/images/map.jpg");
@@ -59,7 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
         if (o.year == year && o.month == month) {
             station s = stations.value(o.station);
             QPointF point = coordinatesToPixel(s.latitude, s.longitude);
-            MapItem *item = new MapItem(point.x() * scale, point.y() * scale);
+            MapItem *item = new MapItem(point.x() * scale, point.y() * scale, 15);
+            QColor color;
+            color.setHsl(90 - o.temp * 3, 255, 127, 255);
+            item->color = color;
             Scene->addItem(item);
         }
     }
@@ -68,6 +75,62 @@ MainWindow::MainWindow(QWidget *parent)
     View->setMouseTracking(true);
 
     setCentralWidget(View);
+
+    QDockWidget *sliders = new QDockWidget;
+    QWidget *temp = new QWidget;
+    QBoxLayout *vbox = new QBoxLayout(QBoxLayout::TopToBottom);
+
+    QHBoxLayout *hbox1 = new QHBoxLayout;
+    QLabel *yText = new QLabel("Year: ");
+    QLabel *yText2 = new QLabel(" 1995");
+    QSlider *ySlider = new QSlider(Qt::Horizontal);
+    ySlider->setTickInterval(1);
+    ySlider->setRange(1970, 2019);
+    ySlider->setTickPosition(QSlider::TicksBothSides);
+    ySlider->setValue(1980);
+    hbox1->addWidget(yText);
+    hbox1->addWidget(ySlider);
+    hbox1->addWidget(yText2);
+
+    QHBoxLayout *hbox2 = new QHBoxLayout;
+    QLabel *mText = new QLabel("Month: ");
+    QLabel *mText2 = new QLabel(" June");
+    QSlider *mSlider = new QSlider(Qt::Horizontal);
+    mSlider->setTickInterval(1);
+    mSlider->setRange(1, 12);
+    mSlider->setTickPosition(QSlider::TicksBothSides);
+    mSlider->setValue(5);
+    hbox2->addWidget(mText);
+    hbox2->addWidget(mSlider);
+    hbox2->addWidget(mText2);
+
+    QString style = "QSlider::groove:horizontal {"
+                        "border: 1px solid;"
+                        "height: 10px;"
+                        "background: #ffffff;"
+                        "margin: 0px 0;"
+                        "border-radius: 5px;"
+                    "}"
+                    "QSlider::handle:horizontal {"
+                        "background: #0099cc;"
+                        "border: 1px solid #000;"
+                        "width: 20px;"
+                        "height: 20px;"
+                        "margin: -10px;"
+                        "border-radius: 10px;"
+                    "}"
+                    "QSlider {"
+                        "height: 40px;"
+                    "}";
+
+    setStyleSheet(style);
+
+    vbox->addItem(hbox1);
+    vbox->addItem(hbox2);
+    temp->setLayout(vbox);
+    sliders->setWidget(temp);
+
+    addDockWidget(Qt::BottomDockWidgetArea, sliders);
 }
 
 MainWindow::~MainWindow()
