@@ -18,13 +18,15 @@ MainWindow::MainWindow(QWidget *parent)
     month = 7;
 
     Scene = new MapScene(0, 0, 700, 700);
-    QPixmap pim = QPixmap(":/images/map.jpg");
-    qreal scale = Scene->width() / pim.width();
-    Scene->addPixmap(pim.scaled(Scene->width(), pim.height() * scale));
+    map = QPixmap(":/images/map.jpg");
+    scale = Scene->width() / map.width();
 
     QFile tempFile(":/text/temperature-monthly-europe.csv");
     if (!tempFile.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-    QList<observation> observations;
+    tempFile.readLine();
+
+    int minYear = 3000;
+    int maxYear = -1;
 
     while (!tempFile.atEnd()) {
         QByteArray line = tempFile.readLine();
@@ -36,12 +38,13 @@ MainWindow::MainWindow(QWidget *parent)
         o.temp = parts[3].toFloat();
         o.number = parts[4].toInt();
         observations.append(o);
+        if (o.year < minYear) minYear = o.year;
+        if (o.year > maxYear) maxYear = o.year;
     }
     tempFile.close();
 
     QFile stationFile(":/text/stations-europe.csv");
     if (!stationFile.open(QIODevice::ReadOnly | QIODevice::Text)) return;
-    QHash<QString, station> stations;
 
     while (!stationFile.atEnd()) {
         QByteArray line = stationFile.readLine();
@@ -59,18 +62,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
     stationFile.close();
 
-    for (observation o : observations) {
-        if (o.year == year && o.month == month) {
-            station s = stations.value(o.station);
-            QPointF point = coordinatesToPixel(s.latitude, s.longitude);
-            MapItem *item = new MapItem(point.x() * scale, point.y() * scale, 15);
-            QColor color;
-            color.setHsl(90 - o.temp * 3, 255, 127, 255);
-            item->color = color;
-            Scene->addItem(item);
-        }
-    }
-
     View = new MapView(Scene);
     View->setMouseTracking(true);
 
@@ -82,27 +73,30 @@ MainWindow::MainWindow(QWidget *parent)
 
     QHBoxLayout *hbox1 = new QHBoxLayout;
     QLabel *yText = new QLabel("Year: ");
-    QLabel *yText2 = new QLabel(" 1995");
+    yText2 = new QLabel(QString::number(year));
     QSlider *ySlider = new QSlider(Qt::Horizontal);
     ySlider->setTickInterval(1);
-    ySlider->setRange(1970, 2019);
+    ySlider->setRange(minYear, maxYear);
     ySlider->setTickPosition(QSlider::TicksBothSides);
-    ySlider->setValue(1980);
+    ySlider->setValue(year);
     hbox1->addWidget(yText);
     hbox1->addWidget(ySlider);
     hbox1->addWidget(yText2);
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
     QLabel *mText = new QLabel("Month: ");
-    QLabel *mText2 = new QLabel(" June");
+    mText2 = new QLabel(MONTHS[month]);
     QSlider *mSlider = new QSlider(Qt::Horizontal);
     mSlider->setTickInterval(1);
     mSlider->setRange(1, 12);
     mSlider->setTickPosition(QSlider::TicksBothSides);
-    mSlider->setValue(5);
+    mSlider->setValue(month);
     hbox2->addWidget(mText);
     hbox2->addWidget(mSlider);
     hbox2->addWidget(mText2);
+
+    connect(ySlider, SIGNAL(valueChanged(int)), this, SLOT(yearChanged(int)));
+    connect(mSlider, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
 
     QString style = "QSlider::groove:horizontal {"
                         "border: 1px solid;"
@@ -129,12 +123,45 @@ MainWindow::MainWindow(QWidget *parent)
     vbox->addItem(hbox2);
     temp->setLayout(vbox);
     sliders->setWidget(temp);
-
     addDockWidget(Qt::BottomDockWidgetArea, sliders);
+
+    loadMap();
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::loadMap()
+{
+    Scene->clear();
+    Scene->addPixmap(map.scaled(Scene->width(), map.height() * scale));
+
+    for (observation o : observations) {
+        if (o.year == year && o.month == month) {
+            station s = stations.value(o.station);
+            QPointF point = coordinatesToPixel(s.latitude, s.longitude);
+            MapItem *item = new MapItem(point.x() * scale, point.y() * scale, 15);
+            QColor color;
+            color.setHsl(100 - o.temp * 3, 255, 127, 255);
+            item->color = color;
+            Scene->addItem(item);
+        }
+    }
+}
+
+void MainWindow::monthChanged(int month)
+{
+    this->month = month;
+    mText2->setText(MONTHS[month]);
+    loadMap();
+}
+
+void MainWindow::yearChanged(int year)
+{
+    this->year = year;
+    yText2->setText(QString::number(year));
+    loadMap();
 }
 
 QPointF MainWindow::coordinatesToPixel(qreal lat, qreal lon)
