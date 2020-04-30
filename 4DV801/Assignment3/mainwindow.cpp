@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     year = 2001;
     month = 7;
 
-    Scene = new MapScene(0, 0, 700, 700);
+    Scene = new MapScene(0, 0, 800, 800);
     map = QPixmap(":/images/map.jpg");
     scale = Scene->width() / map.width();
 
@@ -55,7 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
         s.longitude = parts[2].toFloat();
         s.elevation = parts[3].toFloat();
         s.countryCode = parts[4];
-        s.name = parts[5];
+        s.name = parts[5].remove(0, 1);
+        s.name.remove(s.name.length() - 1, 1);
         s.yearFirst = parts[6].toInt();
         s.yearLast = parts[7].toInt();
         stations.insert(s.id, s);
@@ -143,6 +144,11 @@ void MainWindow::loadMap()
             station s = stations.value(o.station);
             QPointF point = coordinatesToPixel(s.latitude, s.longitude);
             MapItem *item = new MapItem(point.x() * scale, point.y() * scale, 15);
+            item->name = s.name;
+            item->temp = o.temp;
+            item->elevation = s.elevation;
+            item->latitude = s.latitude;
+            item->longitude = s.longitude;
             QColor color;
             color.setHsl(100 - o.temp * 3, 255, 127, 255);
             item->color = color;
