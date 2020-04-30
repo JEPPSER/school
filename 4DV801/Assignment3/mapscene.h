@@ -2,6 +2,7 @@
 #define MAPSCENE_H
 
 #include <QGraphicsScene>
+#include "mapitem.h"
 
 class MapScene : public QGraphicsScene
 {
@@ -11,6 +12,7 @@ public:
     MapScene(QObject *parent = nullptr);
     MapScene(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
     ~MapScene();
+    MapItem *hoverItem = nullptr;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -18,7 +20,6 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
-
 
 };
 

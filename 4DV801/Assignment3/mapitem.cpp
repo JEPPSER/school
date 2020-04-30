@@ -1,5 +1,7 @@
 #include "mapitem.h"
 
+#include <QDebug>
+
 MapItem::MapItem(QGraphicsItem *parent) : QGraphicsObject(parent)
 {
 }
@@ -22,4 +24,9 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     painter->setBrush(color);
     painter->drawPolygon(shape, Qt::OddEvenFill);
+
+    if (!hover) return;
+
+    painter->setBrush(Qt::black);
+    painter->fillRect(boundingRect().x() - 100, boundingRect().y() - 200, 200, 200, Qt::OddEvenFill);
 }

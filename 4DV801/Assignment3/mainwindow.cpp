@@ -135,6 +135,7 @@ MainWindow::~MainWindow()
 void MainWindow::loadMap()
 {
     Scene->clear();
+    Scene->hoverItem = nullptr;
     Scene->addPixmap(map.scaled(Scene->width(), map.height() * scale));
 
     for (observation o : observations) {
