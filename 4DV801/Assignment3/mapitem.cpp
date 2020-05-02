@@ -10,6 +10,7 @@ MapItem::MapItem(qreal x, qreal y, int size, QGraphicsItem *parent)
     : QGraphicsObject(parent)
 {
     shape << QPointF(x, y) << QPointF(x + size, y) << QPointF(x + size, y + size) << QPointF(x, y + size);
+    setFlags(ItemIsSelectable);
 }
 
 QRectF MapItem::boundingRect() const
@@ -23,6 +24,11 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     Q_UNUSED(widget);
 
     painter->setBrush(color);
+
+    if (isSelected()) {
+        painter->setBrush(Qt::blue);
+    }
+
     painter->drawPolygon(shape, Qt::OddEvenFill);
 
     if (!hover) return;
