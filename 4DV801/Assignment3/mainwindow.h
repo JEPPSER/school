@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QHBoxLayout>
 
 #include "mapscene.h"
 #include "mapview.h"
@@ -41,6 +42,8 @@ private slots:
 private:
     QPointF coordinatesToPixel(qreal lat, qreal lon);
     void loadMap();
+    void initSliders(int minYear, int maxYear);
+    void initLinecharts();
 
     MapScene *Scene;
     MapView *View;
@@ -55,5 +58,7 @@ private:
     QLabel *yText2;
     QLabel *mText2;
     const QList<QString> MONTHS = { "NULL", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    QBoxLayout *vbox;
+    QHBoxLayout *chartsLayout;
 };
 #endif // MAINWINDOW_H

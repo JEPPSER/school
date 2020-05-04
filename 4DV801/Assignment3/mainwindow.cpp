@@ -8,7 +8,12 @@
 #include <QDockWidget>
 #include <QLabel>
 
+#include <QChartView>
+#include <QLineSeries>
+
 #include "mapitem.h"
+
+QT_CHARTS_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
 {
@@ -68,9 +73,70 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(View);
 
+    initSliders(minYear, maxYear);
+    initLinecharts();
+
+    QString style = "QSlider::groove:horizontal {"
+                        "border: 1px solid;"
+                        "height: 10px;"
+                        "background: #ffffff;"
+                        "margin: 0px 0;"
+                        "border-radius: 5px;"
+                    "}"
+                    "QSlider::handle:horizontal {"
+                        "background: #0099cc;"
+                        "border: 1px solid #000;"
+                        "width: 20px;"
+                        "height: 20px;"
+                        "margin: -10px;"
+                        "border-radius: 10px;"
+                    "}"
+                    "QSlider {"
+                        "height: 40px;"
+                    "}";
+
+    setStyleSheet(style);
+
+    loadMap();
+}
+
+MainWindow::~MainWindow()
+{
+
+}
+
+void MainWindow::initLinecharts()
+{
+    chartsLayout = new QHBoxLayout;
+    vbox->addLayout(chartsLayout);
+
+    QChart *chart = new QChart;
+    QLineSeries *series = new QLineSeries;
+    series->append(0, 6);
+    series->append(2, 4);
+    series->append(3, 8);
+    series->append(7, 4);
+    series->append(10, 5);
+    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
+
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setMargins(QMargins(0, 0, 0, 0));
+    chart->setMaximumSize(200, 200);
+    chart->setMinimumSize(200, 200);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    chartsLayout->addWidget(chartView);
+}
+
+void MainWindow::initSliders(int minYear, int maxYear)
+{
     QDockWidget *sliders = new QDockWidget;
     QWidget *temp = new QWidget;
-    QBoxLayout *vbox = new QBoxLayout(QBoxLayout::TopToBottom);
+    vbox = new QBoxLayout(QBoxLayout::TopToBottom);
 
     QHBoxLayout *hbox1 = new QHBoxLayout;
     QLabel *yText = new QLabel("Year: ");
@@ -99,38 +165,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ySlider, SIGNAL(valueChanged(int)), this, SLOT(yearChanged(int)));
     connect(mSlider, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
 
-    QString style = "QSlider::groove:horizontal {"
-                        "border: 1px solid;"
-                        "height: 10px;"
-                        "background: #ffffff;"
-                        "margin: 0px 0;"
-                        "border-radius: 5px;"
-                    "}"
-                    "QSlider::handle:horizontal {"
-                        "background: #0099cc;"
-                        "border: 1px solid #000;"
-                        "width: 20px;"
-                        "height: 20px;"
-                        "margin: -10px;"
-                        "border-radius: 10px;"
-                    "}"
-                    "QSlider {"
-                        "height: 40px;"
-                    "}";
-
-    setStyleSheet(style);
-
     vbox->addItem(hbox1);
     vbox->addItem(hbox2);
     temp->setLayout(vbox);
     sliders->setWidget(temp);
     addDockWidget(Qt::BottomDockWidgetArea, sliders);
-
-    loadMap();
-}
-
-MainWindow::~MainWindow()
-{
 }
 
 void MainWindow::loadMap()
