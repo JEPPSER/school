@@ -4,9 +4,12 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QChartView>
 
 #include "mapscene.h"
 #include "mapview.h"
+
+QT_CHARTS_USE_NAMESPACE
 
 struct observation {
     QString station;
@@ -38,12 +41,14 @@ public:
 private slots:
     void yearChanged(int year);
     void monthChanged(int month);
+    void selectionChanged();
 
 private:
     QPointF coordinatesToPixel(qreal lat, qreal lon);
     void loadMap();
     void initSliders(int minYear, int maxYear);
     void initLinecharts();
+    void clearLayout(QLayout *layout);
 
     MapScene *Scene;
     MapView *View;

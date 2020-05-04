@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     month = 7;
 
     Scene = new MapScene(0, 0, 800, 800);
+    connect(Scene, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+
     map = QPixmap(":/images/map.jpg");
     scale = Scene->width() / map.width();
 
@@ -109,27 +111,6 @@ void MainWindow::initLinecharts()
 {
     chartsLayout = new QHBoxLayout;
     vbox->addLayout(chartsLayout);
-
-    QChart *chart = new QChart;
-    QLineSeries *series = new QLineSeries;
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
-    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
-
-    chart->legend()->hide();
-    chart->addSeries(series);
-    chart->createDefaultAxes();
-    chart->setMargins(QMargins(0, 0, 0, 0));
-    chart->setMaximumSize(200, 200);
-    chart->setMinimumSize(200, 200);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-
-    chartsLayout->addWidget(chartView);
 }
 
 void MainWindow::initSliders(int minYear, int maxYear)
@@ -183,6 +164,7 @@ void MainWindow::loadMap()
             station s = stations.value(o.station);
             QPointF point = coordinatesToPixel(s.latitude, s.longitude);
             MapItem *item = new MapItem(point.x() * scale, point.y() * scale, 15);
+            item->id = s.id;
             item->name = s.name;
             item->temp = o.temp;
             item->elevation = s.elevation;
@@ -193,6 +175,57 @@ void MainWindow::loadMap()
             item->color = color;
             Scene->addItem(item);
         }
+    }
+}
+
+void MainWindow::selectionChanged()
+{
+    // Clear line charts.
+    clearLayout(chartsLayout);
+
+    // Loop through all selected stations.
+    for (QGraphicsItem *i : Scene->selectedItems()) {
+        MapItem *sItem = dynamic_cast<MapItem *>(i);
+        if (sItem == nullptr) continue;
+
+        // Create new line chart
+        QChart *chart = new QChart;
+        QLineSeries *series = new QLineSeries;
+
+        int index = 0;
+        for (observation o : observations) {
+            if (o.station == sItem->id && o.month == month) {
+                series->append(index, o.temp);
+                index++;
+            }
+        }
+
+        chart->addSeries(series);
+        chart->legend()->hide();
+        chart->createDefaultAxes();
+        chart->axes().first()->hide();
+        chart->axes().last()->setMin(0);
+        chart->setMargins(QMargins(0, 0, 0, 0));
+        chart->setMaximumSize(200, 200);
+        chart->setMinimumSize(200, 200);
+
+        QChartView *chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartsLayout->addWidget(chartView);
+    }
+}
+
+void MainWindow::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+           delete item->widget();
+        }
+        delete item;
     }
 }
 
