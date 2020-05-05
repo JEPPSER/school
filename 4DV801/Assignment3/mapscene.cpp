@@ -40,4 +40,5 @@ void MapScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    emit mouseReleased();
 }

@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     month = 7;
 
     Scene = new MapScene(0, 0, 800, 800);
-    connect(Scene, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(Scene, SIGNAL(mouseReleased()), this, SLOT(selectionChanged()));
 
     map = QPixmap(":/images/map.jpg");
     scale = Scene->width() / map.width();
@@ -31,9 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     QFile tempFile(":/text/temperature-monthly-europe.csv");
     if (!tempFile.open(QIODevice::ReadOnly | QIODevice::Text)) return;
     tempFile.readLine();
-
-    int minYear = 3000;
-    int maxYear = -1;
 
     while (!tempFile.atEnd()) {
         QByteArray line = tempFile.readLine();
@@ -45,8 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
         o.temp = parts[3].toFloat();
         o.number = parts[4].toInt();
         observations.append(o);
-        if (o.year < minYear) minYear = o.year;
-        if (o.year > maxYear) maxYear = o.year;
     }
     tempFile.close();
 
@@ -66,9 +61,39 @@ MainWindow::MainWindow(QWidget *parent)
         s.name.remove(s.name.length() - 1, 1);
         s.yearFirst = parts[6].toInt();
         s.yearLast = parts[7].toInt();
+
+        // Calculating average temp of each year.
+        for (int index = s.yearFirst; index <= s.yearLast; index++) {
+            qreal average = 0;
+            int count = 0;
+
+            for (observation o : observations) {
+                if (o.station == s.id && o.year == index) {
+                    average += o.temp;
+                    count++;
+                }
+            }
+
+            if (count != 0) {
+                average /= count;
+                s.averages.insert(index, average);
+            }
+        }
+
         stations.insert(s.id, s);
     }
     stationFile.close();
+
+    // Finding min and max values.
+    for (station s : stations) {
+        for (qreal temp : s.averages) {
+            if (temp < minTemp) minTemp = temp;
+            if (temp > maxTemp) maxTemp = temp;
+        }
+
+        if (s.yearFirst < minYear && s.yearFirst != 0) minYear = s.yearFirst;
+        if (s.yearLast > maxYear && s.yearLast != 0) maxYear = s.yearLast;
+    }
 
     View = new MapView(Scene);
     View->setMouseTracking(true);
@@ -183,23 +208,6 @@ void MainWindow::selectionChanged()
     // Clear line charts.
     clearLayout(chartsLayout);
 
-    qreal min = 1000;
-    qreal max = -1000;
-
-    // Finding min and max for line charts.
-    for (QGraphicsItem *i : Scene->selectedItems()) {
-        MapItem *sItem = dynamic_cast<MapItem *>(i);
-        if (sItem == nullptr) continue;
-
-        for (observation o : observations) {
-            if (o.month == month) {
-                if (o.temp < min) min = o.temp;
-                if (o.temp > max) max = o.temp;
-            }
-        }
-    }
-
-
     // Loop through all selected stations.
     for (QGraphicsItem *i : Scene->selectedItems()) {
         MapItem *sItem = dynamic_cast<MapItem *>(i);
@@ -209,20 +217,21 @@ void MainWindow::selectionChanged()
         QChart *chart = new QChart;
         QLineSeries *series = new QLineSeries;
 
-        int index = 0;
-        for (observation o : observations) {
-            if (o.station == sItem->id && o.month == month) {
-                series->append(index, o.temp);
-                index++;
-            }
+        station s = stations.value(sItem->id);
+        for (int index = s.yearFirst; index <= s.yearLast; index++) {
+            qreal val = s.averages[index];
+            if (val != 0) series->append(index, s.averages[index]);
         }
 
         chart->addSeries(series);
         chart->legend()->hide();
+        chart->setTitle(sItem->name);
         chart->createDefaultAxes();
         chart->axes().first()->hide();
-        chart->axes().last()->setMin(min);
-        chart->axes().last()->setMax(max);
+        chart->axes().first()->setMin(minYear);
+        chart->axes().first()->setMax(maxYear);
+        chart->axes().last()->setMin(minTemp);
+        chart->axes().last()->setMax(maxTemp);
         chart->setMargins(QMargins(0, 0, 0, 0));
         chart->setMaximumSize(200, 200);
         chart->setMinimumSize(200, 200);

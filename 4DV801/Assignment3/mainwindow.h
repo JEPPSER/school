@@ -28,6 +28,7 @@ struct station {
     QString name;
     int yearFirst;
     int yearLast;
+    QHash<int, qreal> averages;
 };
 
 class MainWindow : public QMainWindow
@@ -55,6 +56,10 @@ private:
 
     int year;
     int month;
+    qreal minTemp = 1000;
+    qreal maxTemp = -1000;
+    int minYear = 3000;
+    int maxYear = 0;
 
     QPixmap map;
     qreal scale;
