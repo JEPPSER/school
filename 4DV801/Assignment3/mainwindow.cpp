@@ -183,6 +183,23 @@ void MainWindow::selectionChanged()
     // Clear line charts.
     clearLayout(chartsLayout);
 
+    qreal min = 1000;
+    qreal max = -1000;
+
+    // Finding min and max for line charts.
+    for (QGraphicsItem *i : Scene->selectedItems()) {
+        MapItem *sItem = dynamic_cast<MapItem *>(i);
+        if (sItem == nullptr) continue;
+
+        for (observation o : observations) {
+            if (o.month == month) {
+                if (o.temp < min) min = o.temp;
+                if (o.temp > max) max = o.temp;
+            }
+        }
+    }
+
+
     // Loop through all selected stations.
     for (QGraphicsItem *i : Scene->selectedItems()) {
         MapItem *sItem = dynamic_cast<MapItem *>(i);
@@ -204,7 +221,8 @@ void MainWindow::selectionChanged()
         chart->legend()->hide();
         chart->createDefaultAxes();
         chart->axes().first()->hide();
-        chart->axes().last()->setMin(0);
+        chart->axes().last()->setMin(min);
+        chart->axes().last()->setMax(max);
         chart->setMargins(QMargins(0, 0, 0, 0));
         chart->setMaximumSize(200, 200);
         chart->setMinimumSize(200, 200);
