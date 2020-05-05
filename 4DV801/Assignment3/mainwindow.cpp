@@ -7,6 +7,7 @@
 #include <QSlider>
 #include <QDockWidget>
 #include <QLabel>
+#include <QScrollArea>
 
 #include <QChartView>
 #include <QLineSeries>
@@ -22,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     year = 2001;
     month = 7;
 
-    Scene = new MapScene(0, 0, 800, 800);
+    Scene = new MapScene(0, 0, 700, 500);
     connect(Scene, SIGNAL(mouseReleased()), this, SLOT(selectionChanged()));
 
     map = QPixmap(":/images/map.jpg");
@@ -96,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     View = new MapView(Scene);
+    View->setMinimumHeight(Scene->height());
     View->setMouseTracking(true);
 
     setCentralWidget(View);
@@ -134,8 +136,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::initLinecharts()
 {
+    QScrollArea *scroll = new QScrollArea;
+    scroll->setMinimumHeight(250);
     chartsLayout = new QHBoxLayout;
-    vbox->addLayout(chartsLayout);
+    QWidget *temp = new QWidget;
+    temp->setLayout(chartsLayout);
+    scroll->setWidget(temp);
+    scroll->setWidgetResizable(true);
+    vbox->addWidget(scroll);
 }
 
 void MainWindow::initSliders(int minYear, int maxYear)
