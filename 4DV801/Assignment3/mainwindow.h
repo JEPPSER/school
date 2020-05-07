@@ -56,8 +56,8 @@ private:
 
     int year;
     int month;
-    qreal minTemp = 1000;
-    qreal maxTemp = -1000;
+    qreal minAvTemp = 1000;
+    qreal maxAvTemp = -1000;
     int minYear = 3000;
     int maxYear = 0;
 
@@ -69,6 +69,7 @@ private:
     QLabel *mText2;
     const QList<QString> MONTHS = { "NULL", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
     QBoxLayout *vbox;
-    QHBoxLayout *chartsLayout;
+    QHBoxLayout *averageLayout;
+    QHBoxLayout *monthLayout;
 };
 #endif // MAINWINDOW_H

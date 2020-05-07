@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     year = 2001;
     month = 7;
 
-    Scene = new MapScene(0, 0, 700, 500);
+    Scene = new MapScene(0, 0, 900, 700);
     connect(Scene, SIGNAL(mouseReleased()), this, SLOT(selectionChanged()));
 
     map = QPixmap(":/images/map.jpg");
@@ -73,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
                     average += o.temp;
                     count++;
                 }
+
             }
 
             if (count != 0) {
@@ -88,8 +89,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Finding min and max values.
     for (station s : stations) {
         for (qreal temp : s.averages) {
-            if (temp < minTemp) minTemp = temp;
-            if (temp > maxTemp) maxTemp = temp;
+            if (temp < minAvTemp) minAvTemp = temp;
+            if (temp > maxAvTemp) maxAvTemp = temp;
         }
 
         if (s.yearFirst < minYear && s.yearFirst != 0) minYear = s.yearFirst;
@@ -136,14 +137,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::initLinecharts()
 {
-    QScrollArea *scroll = new QScrollArea;
-    scroll->setMinimumHeight(250);
-    chartsLayout = new QHBoxLayout;
-    QWidget *temp = new QWidget;
-    temp->setLayout(chartsLayout);
-    scroll->setWidget(temp);
-    scroll->setWidgetResizable(true);
-    vbox->addWidget(scroll);
+    {
+        QScrollArea *scroll = new QScrollArea;
+        scroll->setMinimumSize(500, 250);
+        averageLayout = new QHBoxLayout;
+        QWidget *temp = new QWidget;
+        temp->setLayout(averageLayout);
+        scroll->setWidget(temp);
+        scroll->setWidgetResizable(true);
+        vbox->addWidget(scroll);
+    }
+
+    {
+        QScrollArea *scroll = new QScrollArea;
+        scroll->setMinimumSize(500, 250);
+        monthLayout = new QHBoxLayout;
+        QWidget *temp = new QWidget;
+        temp->setLayout(monthLayout);
+        scroll->setWidget(temp);
+        scroll->setWidgetResizable(true);
+        vbox->addWidget(scroll);
+    }
 }
 
 void MainWindow::initSliders(int minYear, int maxYear)
@@ -183,7 +197,7 @@ void MainWindow::initSliders(int minYear, int maxYear)
     vbox->addItem(hbox2);
     temp->setLayout(vbox);
     sliders->setWidget(temp);
-    addDockWidget(Qt::BottomDockWidgetArea, sliders);
+    addDockWidget(Qt::RightDockWidgetArea, sliders);
 }
 
 void MainWindow::loadMap()
@@ -214,39 +228,86 @@ void MainWindow::loadMap()
 void MainWindow::selectionChanged()
 {
     // Clear line charts.
-    clearLayout(chartsLayout);
+    clearLayout(averageLayout);
+    clearLayout(monthLayout);
+
+    qreal minTemp = 1000;
+    qreal maxTemp = -1000;
+
+    for (QGraphicsItem *i : Scene->selectedItems()) {
+        MapItem *sItem = dynamic_cast<MapItem *>(i);
+        if (sItem == nullptr) continue;
+
+        for (observation o : observations) {
+            if (sItem->id == o.station && o.month == month) {
+                if (o.temp < minTemp) minTemp = o.temp;
+                if (o.temp > maxTemp) maxTemp = o.temp;
+            }
+        }
+    }
 
     // Loop through all selected stations.
     for (QGraphicsItem *i : Scene->selectedItems()) {
         MapItem *sItem = dynamic_cast<MapItem *>(i);
         if (sItem == nullptr) continue;
 
-        // Create new line chart
-        QChart *chart = new QChart;
-        QLineSeries *series = new QLineSeries;
+        // Create average line chart
+        {
+            QChart *chart = new QChart;
+            QLineSeries *series = new QLineSeries;
 
-        station s = stations.value(sItem->id);
-        for (int index = s.yearFirst; index <= s.yearLast; index++) {
-            qreal val = s.averages[index];
-            if (val != 0) series->append(index, s.averages[index]);
+            station s = stations.value(sItem->id);
+            for (int index = s.yearFirst; index <= s.yearLast; index++) {
+                qreal val = s.averages[index];
+                if (val != 0) series->append(index, s.averages[index]);
+            }
+
+            chart->addSeries(series);
+            chart->legend()->hide();
+            chart->setTitle(sItem->name);
+            chart->createDefaultAxes();
+            chart->axes().first()->hide();
+            chart->axes().first()->setMin(minYear);
+            chart->axes().first()->setMax(maxYear);
+            chart->axes().last()->setMin(minAvTemp);
+            chart->axes().last()->setMax(maxAvTemp);
+            chart->setMargins(QMargins(0, 0, 0, 0));
+            chart->setMaximumSize(200, 200);
+            chart->setMinimumSize(200, 200);
+
+            QChartView *chartView = new QChartView(chart);
+            chartView->setRenderHint(QPainter::Antialiasing);
+            averageLayout->addWidget(chartView);
         }
 
-        chart->addSeries(series);
-        chart->legend()->hide();
-        chart->setTitle(sItem->name);
-        chart->createDefaultAxes();
-        chart->axes().first()->hide();
-        chart->axes().first()->setMin(minYear);
-        chart->axes().first()->setMax(maxYear);
-        chart->axes().last()->setMin(minTemp);
-        chart->axes().last()->setMax(maxTemp);
-        chart->setMargins(QMargins(0, 0, 0, 0));
-        chart->setMaximumSize(200, 200);
-        chart->setMinimumSize(200, 200);
+        // Create month line chart
+        {
+            QChart *chart = new QChart;
+            QLineSeries *series = new QLineSeries;
 
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
-        chartsLayout->addWidget(chartView);
+            for (observation o : observations) {
+                if (o.station == sItem->id && o.month == month) {
+                    series->append(o.year, o.temp);
+                }
+            }
+
+            chart->addSeries(series);
+            chart->legend()->hide();
+            chart->setTitle(sItem->name);
+            chart->createDefaultAxes();
+            chart->axes().first()->hide();
+            chart->axes().first()->setMin(minYear);
+            chart->axes().first()->setMax(maxYear);
+            chart->axes().last()->setMin(minTemp - 3);
+            chart->axes().last()->setMax(maxTemp + 3);
+            chart->setMargins(QMargins(0, 0, 0, 0));
+            chart->setMaximumSize(200, 200);
+            chart->setMinimumSize(200, 200);
+
+            QChartView *chartView = new QChartView(chart);
+            chartView->setRenderHint(QPainter::Antialiasing);
+            monthLayout->addWidget(chartView);
+        }
     }
 }
 
