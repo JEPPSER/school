@@ -9,8 +9,8 @@
 #include <QLabel>
 #include <QScrollArea>
 
-#include <QChartView>
-#include <QLineSeries>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
 #include "mapitem.h"
 

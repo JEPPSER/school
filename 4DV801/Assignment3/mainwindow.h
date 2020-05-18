@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QHBoxLayout>
-#include <QChartView>
+#include <QtCharts/QChartView>
 
 #include "mapscene.h"
 #include "mapview.h"
