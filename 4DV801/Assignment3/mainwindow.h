@@ -62,6 +62,7 @@ private:
     int maxYear = 0;
 
     QPixmap map;
+    QPixmap legend;
     qreal scale;
     QHash<QString, station> stations;
     QList<observation> observations;

@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(Scene, SIGNAL(mouseReleased()), this, SLOT(selectionChanged()));
 
     map = QPixmap(":/images/map.jpg");
+    legend = QPixmap(":/images/legend.png");
     scale = Scene->width() / map.width();
 
     QFile tempFile(":/text/temperature-monthly-europe.csv");
@@ -98,7 +99,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     View = new MapView(Scene);
-    View->setMinimumHeight(Scene->height());
+    View->setFixedSize(Scene->width(), Scene->height());
+    View->fitInView(0, 0, Scene->width() * 0.5, Scene->height() * 0.65, Qt::KeepAspectRatio);
     View->setMouseTracking(true);
 
     setCentralWidget(View);
@@ -205,6 +207,7 @@ void MainWindow::loadMap()
     Scene->clear();
     Scene->hoverItem = nullptr;
     Scene->addPixmap(map.scaled(Scene->width(), map.height() * scale));
+    Scene->addPixmap(legend.scaled(75, 217));
 
     for (observation o : observations) {
         if (o.year == year && o.month == month) {
@@ -218,7 +221,9 @@ void MainWindow::loadMap()
             item->latitude = s.latitude;
             item->longitude = s.longitude;
             QColor color;
-            color.setHsl(100 - o.temp * 3, 255, 127, 255);
+            int hue = 180 - o.temp * 7;
+            if (hue < 0) hue = 0;
+            color.setHsl(hue, 255, 127, 255);
             item->color = color;
             Scene->addItem(item);
         }
