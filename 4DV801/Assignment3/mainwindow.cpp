@@ -231,6 +231,8 @@ void MainWindow::selectionChanged()
     clearLayout(averageLayout);
     clearLayout(monthLayout);
 
+    if (Scene->selectedItems().length() == 0) return;
+
     qreal minTemp = 1000;
     qreal maxTemp = -1000;
 
@@ -245,6 +247,11 @@ void MainWindow::selectionChanged()
             }
         }
     }
+
+    QChart *mChart = new QChart;
+    QChartView *mChartView = new QChartView(mChart);
+    mChartView->setRenderHint(QPainter::Antialiasing);
+    monthLayout->addWidget(mChartView);
 
     // Loop through all selected stations.
     for (QGraphicsItem *i : Scene->selectedItems()) {
@@ -282,8 +289,8 @@ void MainWindow::selectionChanged()
 
         // Create month line chart
         {
-            QChart *chart = new QChart;
             QLineSeries *series = new QLineSeries;
+            series->setName(sItem->name);
 
             for (observation o : observations) {
                 if (o.station == sItem->id && o.month == month) {
@@ -291,24 +298,17 @@ void MainWindow::selectionChanged()
                 }
             }
 
-            chart->addSeries(series);
-            chart->legend()->hide();
-            chart->setTitle(sItem->name);
-            chart->createDefaultAxes();
-            chart->axes().first()->hide();
-            chart->axes().first()->setMin(minYear);
-            chart->axes().first()->setMax(maxYear);
-            chart->axes().last()->setMin(minTemp - 3);
-            chart->axes().last()->setMax(maxTemp + 3);
-            chart->setMargins(QMargins(0, 0, 0, 0));
-            chart->setMaximumSize(200, 200);
-            chart->setMinimumSize(200, 200);
-
-            QChartView *chartView = new QChartView(chart);
-            chartView->setRenderHint(QPainter::Antialiasing);
-            monthLayout->addWidget(chartView);
+            mChart->addSeries(series);
         }
     }
+
+    mChart->setTitle("month");
+    mChart->createDefaultAxes();
+    mChart->axes().first()->setMin(minYear);
+    mChart->axes().first()->setMax(maxYear);
+    mChart->axes().last()->setMin(minTemp - 3);
+    mChart->axes().last()->setMax(maxTemp + 3);
+    mChart->setMargins(QMargins(0, 0, 0, 0));
 }
 
 void MainWindow::clearLayout(QLayout *layout) {
@@ -344,6 +344,7 @@ QPointF MainWindow::coordinatesToPixel(qreal lat, qreal lon)
     int mapWidth = 3000;
     int mapHeight = 2250;
 
+    // Hard coded values from the map image.
     qreal mapLonLeft = -32.9;
     qreal mapLonRight = 60.625;
     qreal mapLonDelta = mapLonRight - mapLonLeft;
