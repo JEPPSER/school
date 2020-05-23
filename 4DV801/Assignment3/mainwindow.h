@@ -56,8 +56,6 @@ private:
 
     int year;
     int month;
-    qreal minAvTemp = 1000;
-    qreal maxAvTemp = -1000;
     int minYear = 3000;
     int maxYear = 0;
 
@@ -69,6 +67,7 @@ private:
     QLabel *yText2;
     QLabel *mText2;
     const QList<QString> MONTHS = { "NULL", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    const QList<QString> MONTHS_LONG = { "NULL", "January", "Febuary", "Mars", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
     QBoxLayout *vbox;
     QHBoxLayout *averageLayout;
     QHBoxLayout *monthLayout;

@@ -8,6 +8,7 @@
 #include <QDockWidget>
 #include <QLabel>
 #include <QScrollArea>
+#include <QScatterSeries>
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
@@ -89,11 +90,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Finding min and max values.
     for (station s : stations) {
-        for (qreal temp : s.averages) {
-            if (temp < minAvTemp) minAvTemp = temp;
-            if (temp > maxAvTemp) maxAvTemp = temp;
-        }
-
         if (s.yearFirst < minYear && s.yearFirst != 0) minYear = s.yearFirst;
         if (s.yearLast > maxYear && s.yearLast != 0) maxYear = s.yearLast;
     }
@@ -222,7 +218,11 @@ void MainWindow::loadMap()
             item->longitude = s.longitude;
             QColor color;
             int hue = 180 - o.temp * 7;
-            if (hue < 0) hue = 0;
+            if (hue < 0) {
+                hue = 0;
+            } else if (hue > 320) {
+                hue = 320;
+            }
             color.setHsl(hue, 255, 127, 255);
             item->color = color;
             Scene->addItem(item);
@@ -240,10 +240,22 @@ void MainWindow::selectionChanged()
 
     qreal minTemp = 1000;
     qreal maxTemp = -1000;
+    qreal minAvTemp = 1000;
+    qreal maxAvTemp = -1000;
 
+    // Find min and max values for axes.
     for (QGraphicsItem *i : Scene->selectedItems()) {
         MapItem *sItem = dynamic_cast<MapItem *>(i);
         if (sItem == nullptr) continue;
+
+        for (station s : stations) {
+            if (sItem->id == s.id) {
+                for (qreal temp : s.averages) {
+                    if (temp < minAvTemp) minAvTemp = temp;
+                    if (temp > maxAvTemp) maxAvTemp = temp;
+                }
+            }
+        }
 
         for (observation o : observations) {
             if (sItem->id == o.station && o.month == month) {
@@ -258,6 +270,11 @@ void MainWindow::selectionChanged()
     mChartView->setRenderHint(QPainter::Antialiasing);
     monthLayout->addWidget(mChartView);
 
+    QChart *yChart = new QChart;
+    QChartView *yChartView = new QChartView(yChart);
+    yChartView->setRenderHint(QPainter::Antialiasing);
+    averageLayout->addWidget(yChartView);
+
     // Loop through all selected stations.
     for (QGraphicsItem *i : Scene->selectedItems()) {
         MapItem *sItem = dynamic_cast<MapItem *>(i);
@@ -265,8 +282,9 @@ void MainWindow::selectionChanged()
 
         // Create average line chart
         {
-            QChart *chart = new QChart;
-            QLineSeries *series = new QLineSeries;
+            QScatterSeries *series = new QScatterSeries;
+            series->setMarkerSize(10);
+            series->setName(sItem->name);
 
             station s = stations.value(sItem->id);
             for (int index = s.yearFirst; index <= s.yearLast; index++) {
@@ -274,27 +292,13 @@ void MainWindow::selectionChanged()
                 if (val != 0) series->append(index, s.averages[index]);
             }
 
-            chart->addSeries(series);
-            chart->legend()->hide();
-            chart->setTitle(sItem->name);
-            chart->createDefaultAxes();
-            chart->axes().first()->hide();
-            chart->axes().first()->setMin(minYear);
-            chart->axes().first()->setMax(maxYear);
-            chart->axes().last()->setMin(minAvTemp);
-            chart->axes().last()->setMax(maxAvTemp);
-            chart->setMargins(QMargins(0, 0, 0, 0));
-            chart->setMaximumSize(200, 200);
-            chart->setMinimumSize(200, 200);
-
-            QChartView *chartView = new QChartView(chart);
-            chartView->setRenderHint(QPainter::Antialiasing);
-            averageLayout->addWidget(chartView);
+            yChart->addSeries(series);
         }
 
         // Create month line chart
         {
-            QLineSeries *series = new QLineSeries;
+            QScatterSeries *series = new QScatterSeries;
+            series->setMarkerSize(10);
             series->setName(sItem->name);
 
             for (observation o : observations) {
@@ -307,13 +311,21 @@ void MainWindow::selectionChanged()
         }
     }
 
-    mChart->setTitle("month");
+    mChart->setTitle(MONTHS_LONG[month]);
     mChart->createDefaultAxes();
     mChart->axes().first()->setMin(minYear);
     mChart->axes().first()->setMax(maxYear);
     mChart->axes().last()->setMin(minTemp - 3);
     mChart->axes().last()->setMax(maxTemp + 3);
     mChart->setMargins(QMargins(0, 0, 0, 0));
+
+    yChart->setTitle("Average yearly");
+    yChart->createDefaultAxes();
+    yChart->axes().first()->setMin(minYear);
+    yChart->axes().first()->setMax(maxYear);
+    yChart->axes().last()->setMin(minAvTemp - 3);
+    yChart->axes().last()->setMax(maxAvTemp + 3);
+    yChart->setMargins(QMargins(0, 0, 0, 0));
 }
 
 void MainWindow::clearLayout(QLayout *layout) {
