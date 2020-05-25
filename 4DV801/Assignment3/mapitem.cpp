@@ -23,13 +23,13 @@ void MapItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    painter->setBrush(color);
-
     if (isSelected()) {
         painter->setBrush(Qt::blue);
+        painter->drawRect(boundingRect().x() - 3, boundingRect().y() - 3, boundingRect().width() + 6, boundingRect().height() + 6);
     }
 
-    painter->drawPolygon(shape, Qt::OddEvenFill);
+    painter->setBrush(color);
+    painter->drawRect(boundingRect().x(), boundingRect().y(), boundingRect().width(), boundingRect().height());
 
     if (!hover) return;
 
