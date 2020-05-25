@@ -105,18 +105,17 @@ MainWindow::MainWindow(QWidget *parent)
     initLinecharts();
 
     QString style = "QSlider::groove:horizontal {"
-                        "border: 1px solid;"
-                        "height: 10px;"
-                        "background: #ffffff;"
+                        "height: 6px;"
+                        "background: #ddd;"
                         "margin: 0px 0;"
-                        "border-radius: 5px;"
+                        "border-radius: 3px;"
                     "}"
                     "QSlider::handle:horizontal {"
-                        "background: #0099cc;"
-                        "border: 1px solid #000;"
-                        "width: 20px;"
-                        "height: 20px;"
-                        "margin: -10px;"
+                        "background: #fff;"
+                        "border: 2px solid #bbb;"
+                        "width: 17px;"
+                        "height: 17px;"
+                        "margin: -7px;"
                         "border-radius: 10px;"
                     "}"
                     "QSlider {"
@@ -166,7 +165,7 @@ void MainWindow::initSliders(int minYear, int maxYear)
 
     QHBoxLayout *hbox1 = new QHBoxLayout;
     QLabel *yText = new QLabel("Year: ");
-    yText2 = new QLabel(QString::number(year));
+    yText2 = new QLabel(" " + QString::number(year));
     QSlider *ySlider = new QSlider(Qt::Horizontal);
     ySlider->setTickInterval(1);
     ySlider->setRange(minYear, maxYear);
@@ -178,7 +177,7 @@ void MainWindow::initSliders(int minYear, int maxYear)
 
     QHBoxLayout *hbox2 = new QHBoxLayout;
     QLabel *mText = new QLabel("Month: ");
-    mText2 = new QLabel(MONTHS[month]);
+    mText2 = new QLabel(" " + MONTHS[month]);
     QSlider *mSlider = new QSlider(Qt::Horizontal);
     mSlider->setTickInterval(1);
     mSlider->setRange(1, 12);
@@ -343,14 +342,14 @@ void MainWindow::clearLayout(QLayout *layout) {
 void MainWindow::monthChanged(int month)
 {
     this->month = month;
-    mText2->setText(MONTHS[month]);
+    mText2->setText(" " + MONTHS[month]);
     loadMap();
 }
 
 void MainWindow::yearChanged(int year)
 {
     this->year = year;
-    yText2->setText(QString::number(year));
+    yText2->setText(" " + QString::number(year));
     loadMap();
 }
 
