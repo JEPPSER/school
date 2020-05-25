@@ -203,7 +203,7 @@ void MainWindow::loadMap()
     Scene->clear();
     Scene->hoverItem = nullptr;
     Scene->addPixmap(map.scaled(Scene->width(), map.height() * scale));
-    Scene->addPixmap(legend.scaled(75, 217));
+    Scene->addPixmap(legend);
 
     for (observation o : observations) {
         if (o.year == year && o.month == month) {
@@ -217,13 +217,15 @@ void MainWindow::loadMap()
             item->latitude = s.latitude;
             item->longitude = s.longitude;
             QColor color;
-            int hue = 180 - o.temp * 7;
-            if (hue < 0) {
-                hue = 0;
-            } else if (hue > 320) {
-                hue = 320;
+            int hue;
+            if (o.temp < 0) {
+                hue = 240;
+            } else {
+                hue = 60 - o.temp * 2;
+                if (hue < 0 ) hue = 0;
             }
-            color.setHsl(hue, 255, 127, 255);
+            int light = 255 - ((qFabs(o.temp) / 25) * 127);
+            color.setHsl(hue, 255, light, 255);
             item->color = color;
             Scene->addItem(item);
         }
@@ -313,16 +315,12 @@ void MainWindow::selectionChanged()
 
     mChart->setTitle(MONTHS_LONG[month]);
     mChart->createDefaultAxes();
-    mChart->axes().first()->setMin(minYear);
-    mChart->axes().first()->setMax(maxYear);
     mChart->axes().last()->setMin(minTemp - 3);
     mChart->axes().last()->setMax(maxTemp + 3);
     mChart->setMargins(QMargins(0, 0, 0, 0));
 
-    yChart->setTitle("Average yearly");
+    yChart->setTitle("Yearly average");
     yChart->createDefaultAxes();
-    yChart->axes().first()->setMin(minYear);
-    yChart->axes().first()->setMax(maxYear);
     yChart->axes().last()->setMin(minAvTemp - 3);
     yChart->axes().last()->setMax(maxAvTemp + 3);
     yChart->setMargins(QMargins(0, 0, 0, 0));
