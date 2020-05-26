@@ -50,6 +50,7 @@ private:
     void initSliders(int minYear, int maxYear);
     void initLinecharts();
     void clearLayout(QLayout *layout);
+    void loadCharts();
 
     MapScene *Scene;
     MapView *View;
@@ -71,5 +72,6 @@ private:
     QBoxLayout *vbox;
     QHBoxLayout *averageLayout;
     QHBoxLayout *monthLayout;
+    QList<station> selectedStations;
 };
 #endif // MAINWINDOW_H

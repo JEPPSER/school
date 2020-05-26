@@ -233,11 +233,24 @@ void MainWindow::loadMap()
 
 void MainWindow::selectionChanged()
 {
-    // Clear line charts.
     clearLayout(averageLayout);
     clearLayout(monthLayout);
+    selectedStations.clear();
+
+    for (QGraphicsItem *i : Scene->selectedItems()) {
+        MapItem *sItem = dynamic_cast<MapItem *>(i);
+        if (sItem == nullptr) continue;
+        selectedStations.append(stations[sItem->id]);
+    }
 
     if (Scene->selectedItems().length() == 0) return;
+    loadCharts();
+}
+
+void MainWindow::loadCharts() {
+    clearLayout(averageLayout);
+    clearLayout(monthLayout);
+    if (selectedStations.length() == 0) return;
 
     qreal minTemp = 1000;
     qreal maxTemp = -1000;
@@ -245,21 +258,14 @@ void MainWindow::selectionChanged()
     qreal maxAvTemp = -1000;
 
     // Find min and max values for axes.
-    for (QGraphicsItem *i : Scene->selectedItems()) {
-        MapItem *sItem = dynamic_cast<MapItem *>(i);
-        if (sItem == nullptr) continue;
-
-        for (station s : stations) {
-            if (sItem->id == s.id) {
-                for (qreal temp : s.averages) {
-                    if (temp < minAvTemp) minAvTemp = temp;
-                    if (temp > maxAvTemp) maxAvTemp = temp;
-                }
-            }
+    for (station s : selectedStations) {
+        for (qreal temp : s.averages) {
+            if (temp < minAvTemp) minAvTemp = temp;
+            if (temp > maxAvTemp) maxAvTemp = temp;
         }
 
         for (observation o : observations) {
-            if (sItem->id == o.station && o.month == month) {
+            if (s.id == o.station && o.month == month) {
                 if (o.temp < minTemp) minTemp = o.temp;
                 if (o.temp > maxTemp) maxTemp = o.temp;
             }
@@ -277,17 +283,13 @@ void MainWindow::selectionChanged()
     averageLayout->addWidget(yChartView);
 
     // Loop through all selected stations.
-    for (QGraphicsItem *i : Scene->selectedItems()) {
-        MapItem *sItem = dynamic_cast<MapItem *>(i);
-        if (sItem == nullptr) continue;
-
+    for (station s : selectedStations) {
         // Create average line chart
         {
             QScatterSeries *series = new QScatterSeries;
             series->setMarkerSize(10);
-            series->setName(sItem->name);
+            series->setName(s.name);
 
-            station s = stations.value(sItem->id);
             for (int index = s.yearFirst; index <= s.yearLast; index++) {
                 qreal val = s.averages[index];
                 if (val != 0) series->append(index, s.averages[index]);
@@ -300,10 +302,10 @@ void MainWindow::selectionChanged()
         {
             QScatterSeries *series = new QScatterSeries;
             series->setMarkerSize(10);
-            series->setName(sItem->name);
+            series->setName(s.name);
 
             for (observation o : observations) {
-                if (o.station == sItem->id && o.month == month) {
+                if (o.station == s.id && o.month == month) {
                     series->append(o.year, o.temp);
                 }
             }
@@ -344,6 +346,7 @@ void MainWindow::monthChanged(int month)
     this->month = month;
     mText2->setText(" " + MONTHS[month]);
     loadMap();
+    loadCharts();
 }
 
 void MainWindow::yearChanged(int year)
@@ -351,6 +354,7 @@ void MainWindow::yearChanged(int year)
     this->year = year;
     yText2->setText(" " + QString::number(year));
     loadMap();
+    loadCharts();
 }
 
 QPointF MainWindow::coordinatesToPixel(qreal lat, qreal lon)
