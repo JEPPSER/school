@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QRadioButton>
 #include <QtCharts/QChartView>
 
 #include "mapscene.h"
@@ -43,6 +44,7 @@ private slots:
     void yearChanged(int year);
     void monthChanged(int month);
     void selectionChanged();
+    void loadCharts();
 
 private:
     QPointF coordinatesToPixel(qreal lat, qreal lon);
@@ -50,7 +52,6 @@ private:
     void initSliders(int minYear, int maxYear);
     void initLinecharts();
     void clearLayout(QLayout *layout);
-    void loadCharts();
 
     MapScene *Scene;
     MapView *View;
@@ -72,6 +73,8 @@ private:
     QBoxLayout *vbox;
     QHBoxLayout *averageLayout;
     QHBoxLayout *monthLayout;
+    QRadioButton *radioScatter;
+    QRadioButton *radioLine;
     QList<station> selectedStations;
 };
 #endif // MAINWINDOW_H

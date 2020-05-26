@@ -9,6 +9,8 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QScatterSeries>
+#include <QGroupBox>
+#include <QRadioButton>
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
@@ -187,11 +189,23 @@ void MainWindow::initSliders(int minYear, int maxYear)
     hbox2->addWidget(mSlider);
     hbox2->addWidget(mText2);
 
+    QGroupBox *groupBox = new QGroupBox;
+    radioScatter = new QRadioButton("Scatter plot");
+    radioLine = new QRadioButton("Line chart");
+    radioScatter->setChecked(true);
+    QHBoxLayout *radioLayout = new QHBoxLayout;
+    radioLayout->addWidget(radioScatter);
+    radioLayout->addWidget(radioLine);
+    groupBox->setLayout(radioLayout);
+
     connect(ySlider, SIGNAL(valueChanged(int)), this, SLOT(yearChanged(int)));
     connect(mSlider, SIGNAL(valueChanged(int)), this, SLOT(monthChanged(int)));
+    connect(radioScatter, SIGNAL(toggled(bool)), this, SLOT(loadCharts()));
+    connect(radioLine, SIGNAL(toggled(bool)), this, SLOT(loadCharts()));
 
     vbox->addItem(hbox1);
     vbox->addItem(hbox2);
+    vbox->addWidget(groupBox);
     temp->setLayout(vbox);
     sliders->setWidget(temp);
     addDockWidget(Qt::RightDockWidgetArea, sliders);
@@ -286,31 +300,56 @@ void MainWindow::loadCharts() {
     for (station s : selectedStations) {
         // Create average line chart
         {
-            QScatterSeries *series = new QScatterSeries;
-            series->setMarkerSize(10);
-            series->setName(s.name);
+            if (radioScatter->isChecked()) {
+                QScatterSeries *series = new QScatterSeries;
+                series->setMarkerSize(10);
+                series->setName(s.name);
 
-            for (int index = s.yearFirst; index <= s.yearLast; index++) {
-                qreal val = s.averages[index];
-                if (val != 0) series->append(index, s.averages[index]);
+                for (int index = s.yearFirst; index <= s.yearLast; index++) {
+                    qreal val = s.averages[index];
+                    if (val != 0) series->append(index, s.averages[index]);
+                }
+
+                yChart->addSeries(series);
+            } else {
+                QLineSeries *series = new QLineSeries;
+                series->setName(s.name);
+
+                for (int index = s.yearFirst; index <= s.yearLast; index++) {
+                    qreal val = s.averages[index];
+                    if (val != 0) series->append(index, s.averages[index]);
+                }
+
+                yChart->addSeries(series);
             }
-
-            yChart->addSeries(series);
         }
 
         // Create month line chart
         {
-            QScatterSeries *series = new QScatterSeries;
-            series->setMarkerSize(10);
-            series->setName(s.name);
+            if (radioScatter->isChecked()) {
+                QScatterSeries *series = new QScatterSeries;
+                series->setMarkerSize(10);
+                series->setName(s.name);
 
-            for (observation o : observations) {
-                if (o.station == s.id && o.month == month) {
-                    series->append(o.year, o.temp);
+                for (observation o : observations) {
+                    if (o.station == s.id && o.month == month) {
+                        series->append(o.year, o.temp);
+                    }
                 }
-            }
 
-            mChart->addSeries(series);
+                mChart->addSeries(series);
+            } else {
+                QLineSeries *series = new QLineSeries;
+                series->setName(s.name);
+
+                for (observation o : observations) {
+                    if (o.station == s.id && o.month == month) {
+                        series->append(o.year, o.temp);
+                    }
+                }
+
+                mChart->addSeries(series);
+            }
         }
     }
 
